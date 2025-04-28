@@ -14,12 +14,12 @@ A web-based chess game with an AI opponent using the minimax algorithm with alph
 - Share games via URL
 
 ## Live Demo
-[Play KnightBot](https://yourusername.github.io/knightbot/)
+[Play KnightBot](https://github.com/ibramich3/KnightBot)
 
 ## Setup
 1. Clone this repository
    ```
-   git clone https://github.com/yourusername/knightbot.git
+   git clone (https://github.com/ibramich3/KnightBot)
    cd knightbot
    ```
 2. Open `index.html` in a web browser or deploy to GitHub Pages
