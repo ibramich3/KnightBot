@@ -1,4 +1,3 @@
-# KnightBot Technical Documentation
 
 ## Architecture Overview
 
@@ -150,7 +149,7 @@ function loadSharedGame() {
    - Go to Settings > Pages
    - Set the source to "main" branch
    - Save changes
-4. Your app will be available at `https://yourusername.github.io/knightbot/`
+4. Your app will be available at "[https://yourusername.github.io/knightbot/`](https://ibramich3.github.io/KnightBot/)"
 
 ### Local Development
 
