@@ -312,6 +312,52 @@ canvas.addEventListener('click', (event) => {
     }
 });
 
+// Select the button by its ID
+const newGameButton = document.getElementById('new-game-button');
+
+// Add an event listener for the button's click event
+newGameButton.addEventListener('click', () => {
+    startNewGame();
+});
+
+// Define the function to reset the game
+function startNewGame() {
+    // Reset the game board to the initial state
+    board = [
+        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+    ];
+    
+    // Reset other game variables
+    currentPlayer = 'white';
+    moveHistory = [];
+    moveStack = [];
+    redoStack = [];
+    lastThoughts = [];
+
+    // Update the bot's board
+    if (window.knightBot) {
+        window.knightBot.board = board;
+    }
+
+    // Redraw the board and UI components
+    drawBoard();
+    updateMoveHistoryTable();
+    updateUndoRedoButtonStates();
+    updateBestMoveButtonState();
+
+    // Clear local storage (optional)
+    localStorage.removeItem('knightbotSavedGame');
+
+    alert('A new game has started!');
+}
+
 function initGame() {
     window.knightBot = new KnightBot(board);
     window.moveAnalysisEnabled = false;
