@@ -341,9 +341,10 @@ function startNewGame() {
     redoStack = [];
     lastThoughts = [];
 
-    // Update the bot's board
+    // Update the bot's board and reset its history
     if (window.knightBot) {
         window.knightBot.board = board;
+        window.knightBot.resetPositionHistory();
     }
 
     // Redraw the board and UI components
@@ -352,7 +353,7 @@ function startNewGame() {
     updateUndoRedoButtonStates();
     updateBestMoveButtonState();
 
-    // Clear local storage (optional)
+    // Clear local storage
     localStorage.removeItem('knightbotSavedGame');
 
     alert('A new game has started!');
