@@ -5,6 +5,11 @@ class KnightBot {
         this.positionHistory = [];
     }
 
+    resetPositionHistory() {
+        this.positionHistory = [];
+        this.thoughts = [];
+    }
+
     getBestMove(depth) {
         this.thoughts = [];
         let bestMove = null;
