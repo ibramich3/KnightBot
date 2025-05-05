@@ -353,6 +353,9 @@ function startNewGame() {
     updateUndoRedoButtonStates();
     updateBestMoveButtonState();
 
+    // Clear the current game ID
+    localStorage.removeItem('currentGameId');
+
     // Clear local storage
     localStorage.removeItem('knightbotSavedGame');
 
@@ -486,132 +489,140 @@ function updateUndoRedoButtonStates() {
 }
 
 // Game Saving & Sharing Functions
-function saveGameToLocalStorage() {
+async function saveGameToLocalStorage() {
     const gameState = {
         board: board,
         currentPlayer: currentPlayer,
-        moveHistory: moveHistory,
-        moveStack: moveStack,
-        redoStack: redoStack
+        moveHistory: moveHistory
     };
     
-    localStorage.setItem('knightbotSavedGame', JSON.stringify(gameState));
+    try {
+        let response;
+        const currentGameId = localStorage.getItem('currentGameId');
+        
+        if (currentGameId) {
+            // Update existing game
+            response = await fetch(`/api/games/${currentGameId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(gameState)
+            });
+        } else {
+            // Create new game
+            response = await fetch('/api/games', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(gameState)
+            });
+            const data = await response.json();
+            localStorage.setItem('currentGameId', data.gameId);
+        }
+
+        if (!response.ok) {
+            throw new Error('Failed to save game');
+        }
+        
+        // Fallback to local storage if server save fails
+    } catch (error) {
+        console.error('Server save failed, using local storage:', error);
+        localStorage.setItem('board', JSON.stringify(board));
+        localStorage.setItem('currentPlayer', currentPlayer);
+        localStorage.setItem('moveHistory', JSON.stringify(moveHistory));
+    }
 }
 
-function loadGameFromLocalStorage() {
-    const savedGame = localStorage.getItem('knightbotSavedGame');
-    
-    if (savedGame) {
-        try {
-            const gameState = JSON.parse(savedGame);
+async function loadGameFromLocalStorage() {
+    try {
+        const currentGameId = localStorage.getItem('currentGameId');
+        
+        if (currentGameId) {
+            const response = await fetch(`/api/games/${currentGameId}`);
+            if (!response.ok) {
+                throw new Error('Failed to load game');
+            }
+            
+            const gameState = await response.json();
             board = gameState.board;
             currentPlayer = gameState.currentPlayer;
             moveHistory = gameState.moveHistory;
-            moveStack = gameState.moveStack || [];
-            redoStack = gameState.redoStack || [];
-            
-            // Update the bot's board
-            if (window.knightBot) {
-                window.knightBot.board = board;
-            }
-            
             drawBoard();
             updateMoveHistoryTable();
-            updateUndoRedoButtonStates();
-            updateBestMoveButtonState();
             return true;
-        } catch (e) {
-            console.error("Failed to load saved game:", e);
-            return false;
+        }
+    } catch (error) {
+        console.error('Server load failed, trying local storage:', error);
+        // Fallback to local storage
+        const savedBoard = localStorage.getItem('board');
+        const savedPlayer = localStorage.getItem('currentPlayer');
+        const savedHistory = localStorage.getItem('moveHistory');
+        
+        if (savedBoard && savedPlayer && savedHistory) {
+            board = JSON.parse(savedBoard);
+            currentPlayer = savedPlayer;
+            moveHistory = JSON.parse(savedHistory);
+            drawBoard();
+            updateMoveHistoryTable();
+            return true;
         }
     }
     return false;
-}
-
-function createShareableLink() {
-    const gameState = {
-        b: board.map(row => row.join('')).join('|'), // compressed board
-        p: currentPlayer,
-        h: moveHistory.map(m => `${m[0]}-${m[1]}`).join(',') // compressed history
-    };
-    
-    const compressedState = btoa(JSON.stringify(gameState));
-    return `${window.location.origin}${window.location.pathname}?game=${compressedState}`;
 }
 
 function shareGame() {
-    const shareableLink = createShareableLink();
-    
-    // Check if the Web Share API is available
-    if (navigator.share) {
-        navigator.share({
-            title: 'KnightBot Game',
-            text: 'Check out this chess position!',
-            url: shareableLink
-        }).catch(err => {
-            // Fallback if sharing fails
-            copyToClipboard(shareableLink);
+    const currentGameId = localStorage.getItem('currentGameId');
+    if (currentGameId) {
+        const gameUrl = `${window.location.origin}?game=${currentGameId}`;
+        navigator.clipboard.writeText(gameUrl).then(() => {
+            alert('Game URL copied to clipboard!');
         });
-    } else {
-        // Fallback for browsers that don't support the Web Share API
-        copyToClipboard(shareableLink);
     }
 }
 
-function copyToClipboard(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    
-    alert('Game link copied to clipboard!');
-}
-
-function loadSharedGame() {
+async function loadSharedGame() {
     const urlParams = new URLSearchParams(window.location.search);
-    const gameParam = urlParams.get('game');
+    const gameId = urlParams.get('game');
     
-    if (gameParam) {
+    if (gameId) {
         try {
-            const gameState = JSON.parse(atob(gameParam));
-            
-            // Restore board
-            board = gameState.b.split('|').map(row => row.split(''));
-            
-            // Restore current player
-            currentPlayer = gameState.p;
-            
-            // Restore move history
-            if (gameState.h && gameState.h.length > 0) {
-                moveHistory = gameState.h.split(',').map(m => {
-                    const parts = m.split('-');
-                    return parts.length === 2 ? parts : ['', ''];
-                });
-            } else {
-                moveHistory = [];
+            const response = await fetch(`/api/games/${gameId}`);
+            if (!response.ok) {
+                throw new Error('Failed to load shared game');
             }
             
-            // Clear undo/redo stacks for shared games
-            moveStack = [];
-            redoStack = [];
-            
-            // Update the bot's board
-            if (window.knightBot) {
-                window.knightBot.board = board;
-            }
-            
+            const gameState = await response.json();
+            board = gameState.board;
+            currentPlayer = gameState.currentPlayer;
+            moveHistory = gameState.moveHistory;
+            localStorage.setItem('currentGameId', gameId);
             drawBoard();
             updateMoveHistoryTable();
-            updateUndoRedoButtonStates();
-            updateBestMoveButtonState();
-            
             return true;
-        } catch (e) {
-            console.error("Failed to load shared game:", e);
+        } catch (error) {
+            console.error('Failed to load shared game:', error);
             return false;
         }
     }
     return false;
+}
+
+// Update initialization to check for shared games
+window.onload = async function() {
+    // First try to load a shared game from URL
+    const sharedGameLoaded = await loadSharedGame();
+    if (!sharedGameLoaded) {
+        // If no shared game, try to load saved game
+        const savedGameLoaded = await loadGameFromLocalStorage();
+        if (!savedGameLoaded) {
+            // If no saved game, start new game
+            initializeBoard();
+        }
+    }
+    
+    // Add event listeners
+    document.getElementById('chessboard').addEventListener('click', handleClick);
+    // ... rest of your event listeners ...
 }
