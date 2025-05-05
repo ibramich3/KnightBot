@@ -31,8 +31,8 @@ The frontend is built with vanilla JavaScript and HTML5 Canvas:
 - **bot.js**: AI implementation with minimax algorithm
 
 #### UI Components
-- Chess board rendered on HTML5 Canvas
-- Move history table
+- Chessboard rendered on HTML5 Canvas
+- Move the history table
 - Control panel with game options
 
 #### Game Features
