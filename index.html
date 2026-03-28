@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>StudioPyramid — Your Brand, Online.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cream:#F2F0EB;
+  --cream2:#EAE7E0;
+  --cream3:#E2DED6;
+  --ink:#0D0D0D;
+  --ink2:#1A1A1A;
+  --mid:#3A3A3A;
+  --light:#888888;
+  --lighter:#AAAAAA;
+  --rule:rgba(13,13,13,0.15);
+  --rule-strong:rgba(13,13,13,0.35);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6;overflow-x:hidden;}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--cream);}
+::-webkit-scrollbar-thumb{background:var(--rule-strong);border-radius:2px;}
+
+/* ─── SUBTLE GRID TEXTURE ─── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(var(--rule) 1px,transparent 1px),
+    linear-gradient(90deg,var(--rule) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;z-index:0;
+}
+
+/* ─── NAV ─── */
+header{
+  position:fixed;top:0;width:100%;z-index:1000;
+  background:rgba(242,240,235,0.94);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--rule-strong);
+}
+
+nav{
+  max-width:1200px;margin:0 auto;padding:0 24px;
+  display:flex;justify-content:space-between;align-items:center;height:70px;
+}
+
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+
+.nav-pyramid-svg{width:28px;height:24px;}
+
+.nav-brand{
+  font-family:'Montserrat',sans-serif;
+  font-size:0.75rem;font-weight:600;
+  letter-spacing:4px;color:var(--ink);text-transform:uppercase;
+}
+
+.nav-links{display:flex;list-style:none;gap:2.5rem;}
+
+.nav-links a{
+  text-decoration:none;color:var(--mid);
+  font-size:0.65rem;font-weight:400;
+  letter-spacing:2.5px;text-transform:uppercase;
+  transition:color 0.3s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:1px;background:var(--ink);transition:width 0.3s ease;
+}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a:hover::after{width:100%;}
+
+.nav-cta{
+  background:transparent!important;
+  border:1px solid var(--rule-strong)!important;
+  color:var(--ink)!important;
+  padding:8px 20px;border-radius:2px;
+  font-size:0.63rem!important;letter-spacing:2px!important;
+  transition:all 0.3s!important;
+}
+.nav-cta:hover{background:var(--ink)!important;color:var(--cream)!important;}
+.nav-cta::after{display:none!important;}
+
+.mobile-menu{display:none;flex-direction:column;cursor:pointer;gap:5px;padding:4px;}
+.mobile-menu span{width:22px;height:1.5px;background:var(--ink);transition:all 0.3s;}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  justify-content:center;text-align:center;
+  position:relative;overflow:hidden;padding-top:70px;
+}
+
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 55% 45% at 50% 55%, rgba(13,13,13,0.04) 0%, transparent 70%);
+}
+
+/* Tiny floating dust particles */
+.particles{position:absolute;inset:0;overflow:hidden;}
+.particle{
+  position:absolute;width:1px;height:1px;
+  background:var(--ink);border-radius:50%;opacity:0;
+  animation:particleFade 5s ease-in-out infinite;
+}
+.particle:nth-child(1){top:20%;left:15%;animation-delay:0s;}
+.particle:nth-child(2){top:60%;left:80%;animation-delay:1.2s;}
+.particle:nth-child(3){top:35%;left:62%;animation-delay:2.4s;}
+.particle:nth-child(4){top:75%;left:28%;animation-delay:0.6s;}
+.particle:nth-child(5){top:15%;left:70%;animation-delay:1.8s;}
+.particle:nth-child(6){top:50%;left:10%;animation-delay:3.2s;}
+@keyframes particleFade{0%,100%{opacity:0;transform:scale(1);}50%{opacity:0.25;transform:scale(3);}}
+
+.hero-content{position:relative;z-index:2;max-width:820px;padding:0 24px;}
+
+.hero-eyebrow{
+  font-size:0.6rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--light);margin-bottom:2rem;
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.2s;
+}
+
+.hero-pyramid-wrap{
+  display:flex;justify-content:center;margin-bottom:2.5rem;
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.4s;
+}
+
+.hero-pyramid-svg{
+  width:80px;height:auto;
+  animation:pyramidBreath 4s ease-in-out infinite;
+}
+@keyframes pyramidBreath{0%,100%{opacity:0.85;}50%{opacity:1;}}
+
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,7vw,5.5rem);
+  font-weight:300;line-height:1.1;letter-spacing:2px;
+  color:var(--ink);margin-bottom:1.5rem;
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.6s;
+}
+.hero h1 em{font-style:italic;color:var(--mid);}
+
+.hero p{
+  font-size:0.9rem;font-weight:300;letter-spacing:0.5px;
+  color:var(--mid);max-width:480px;margin:0 auto 2.5rem;
+  opacity:0;animation:fadeUp 0.8s ease forwards 0.8s;
+}
+
+.hero-actions{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp 0.8s ease forwards 1s;
+}
+
+.btn-primary{
+  display:inline-block;padding:14px 36px;
+  background:var(--ink);border:1px solid var(--ink);
+  color:var(--cream);text-decoration:none;
+  font-size:0.65rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;
+  border-radius:2px;transition:all 0.3s;
+}
+.btn-primary:hover{background:var(--mid);border-color:var(--mid);}
+
+.btn-ghost{
+  display:inline-block;padding:14px 36px;
+  background:transparent;border:1px solid var(--rule-strong);
+  color:var(--mid);text-decoration:none;
+  font-size:0.65rem;font-weight:400;letter-spacing:3px;text-transform:uppercase;
+  border-radius:2px;transition:all 0.3s;
+}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink);}
+
+.hero-scroll{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeUp 0.8s ease forwards 1.4s;
+}
+.scroll-line{
+  width:1px;height:50px;
+  background:linear-gradient(to bottom,var(--rule-strong),transparent);
+  animation:scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse{0%,100%{opacity:0.3;}50%{opacity:0.8;}}
+.scroll-text{font-size:0.5rem;letter-spacing:3px;color:var(--lighter);text-transform:uppercase;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── SECTION BASE ─── */
+section{position:relative;z-index:1;}
+
+.section-inner{max-width:1200px;margin:0 auto;padding:0 24px;}
+
+.section-header{text-align:center;margin-bottom:4rem;}
+
+.section-eyebrow{
+  font-size:0.58rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--light);margin-bottom:1rem;display:block;
+}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,4vw,3rem);font-weight:300;
+  letter-spacing:2px;color:var(--ink);margin-bottom:1rem;
+}
+.section-divider{
+  width:50px;height:1px;
+  background:linear-gradient(to right,transparent,var(--ink),transparent);
+  margin:1.2rem auto 0;
+}
+
+/* ─── STATS BAR ─── */
+.stats-bar{
+  background:var(--cream2);
+  border-top:1px solid var(--rule-strong);
+  border-bottom:1px solid var(--rule-strong);
+  padding:40px 0;
+}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.stat-item{text-align:center;padding:20px;border-right:1px solid var(--rule-strong);}
+.stat-item:last-child{border-right:none;}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;font-weight:300;color:var(--ink);line-height:1;margin-bottom:6px;
+}
+.stat-label{font-size:0.58rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--light);}
+
+/* ─── SERVICES ─── */
+.services-section{padding:120px 0;background:var(--cream);}
+
+.services-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:1px;background:var(--rule-strong);
+  border:1px solid var(--rule-strong);
+}
+
+.service-card{
+  background:var(--cream);padding:2.5rem;
+  position:relative;overflow:hidden;transition:background 0.3s;
+}
+.service-card::before{
+  content:'';position:absolute;top:0;left:0;
+  width:100%;height:2px;
+  background:linear-gradient(to right,transparent,var(--rule-strong),transparent);
+  transform:scaleX(0);transition:transform 0.4s ease;
+}
+.service-card:hover{background:var(--cream2);}
+.service-card:hover::before{transform:scaleX(1);}
+
+.service-num{
+  font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;
+  color:rgba(13,13,13,0.07);line-height:1;margin-bottom:1rem;transition:color 0.3s;
+}
+.service-card:hover .service-num{color:rgba(13,13,13,0.15);}
+
+.service-icon-wrap{
+  width:44px;height:44px;border:1px solid var(--rule-strong);
+  border-radius:2px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.2rem;font-size:1.1rem;transition:border-color 0.3s;
+}
+.service-card:hover .service-icon-wrap{border-color:var(--ink);}
+
+.service-card h3{
+  font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;
+  letter-spacing:1px;color:var(--ink);margin-bottom:0.8rem;
+}
+.service-card p{font-size:0.8rem;font-weight:300;color:var(--mid);line-height:1.7;}
+
+.service-arrow{
+  position:absolute;bottom:2rem;right:2rem;
+  color:var(--light);font-size:1.1rem;
+  opacity:0;transform:translate(-4px,4px);transition:all 0.3s;
+}
+.service-card:hover .service-arrow{opacity:1;transform:translate(0,0);}
+
+/* ─── PORTFOLIO ─── */
+.portfolio-section{padding:120px 0;background:var(--cream2);}
+
+.portfolio-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+  gap:1px;background:var(--rule-strong);
+}
+.portfolio-item{background:var(--cream2);overflow:hidden;position:relative;cursor:pointer;}
+
+.portfolio-img{height:220px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.portfolio-img-bg{position:absolute;inset:0;transition:transform 0.6s ease;}
+.portfolio-item:hover .portfolio-img-bg{transform:scale(1.04);}
+
+.pi-1 .portfolio-img-bg{background:linear-gradient(135deg,#ddd9d0,#c8c3b8);}
+.pi-2 .portfolio-img-bg{background:linear-gradient(135deg,#d8d3c8,#c5bfb2);}
+.pi-3 .portfolio-img-bg{background:linear-gradient(135deg,#ccc8bf,#b8b3a8);}
+.pi-4 .portfolio-img-bg{background:linear-gradient(135deg,#d4d0c6,#bebab0);}
+.pi-5 .portfolio-img-bg{background:linear-gradient(135deg,#dedad2,#ccc8be);}
+.pi-6 .portfolio-img-bg{background:linear-gradient(135deg,#d0ccc3,#bcb8ae);}
+
+.portfolio-img-label{
+  position:relative;z-index:2;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:300;letter-spacing:3px;
+  color:rgba(13,13,13,0.4);text-transform:uppercase;
+  transition:color 0.3s;
+}
+.portfolio-item:hover .portfolio-img-label{color:var(--ink);}
+
+.portfolio-img-watermark{
+  position:absolute;width:56px;opacity:0.08;
+  bottom:10px;right:10px;transition:opacity 0.3s;
+}
+.portfolio-item:hover .portfolio-img-watermark{opacity:0.2;}
+
+.portfolio-content{
+  padding:1.8rem;
+  border-top:1px solid var(--rule);
+  transition:border-color 0.3s;
+}
+.portfolio-item:hover .portfolio-content{border-color:var(--rule-strong);}
+.portfolio-content h3{
+  font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;
+  letter-spacing:1px;color:var(--ink);margin-bottom:0.5rem;
+}
+.portfolio-content p{font-size:0.78rem;font-weight:300;color:var(--mid);line-height:1.6;}
+
+/* ─── CONTACT ─── */
+.contact-section{
+  padding:120px 0;background:var(--cream);
+  border-top:1px solid var(--rule-strong);
+}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.contact-left p{
+  font-size:0.85rem;font-weight:300;color:var(--mid);
+  line-height:1.8;margin-bottom:2.5rem;max-width:380px;
+}
+.contact-info-list{display:flex;flex-direction:column;gap:1rem;}
+.contact-info-item{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.2rem;
+  background:transparent;border:1px solid var(--rule-strong);
+  border-radius:2px;transition:border-color 0.3s,background 0.3s;
+}
+.contact-info-item:hover{border-color:var(--ink);background:var(--cream2);}
+.ci-icon{font-size:1rem;flex-shrink:0;}
+.ci-text h4{
+  font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:400;
+  letter-spacing:1px;color:var(--ink);margin-bottom:2px;
+}
+.ci-text p{font-size:0.75rem;font-weight:300;color:var(--mid);margin:0;}
+
+.contact-form{
+  background:var(--cream2);border:1px solid var(--rule-strong);
+  padding:2.5rem;border-radius:2px;position:relative;
+}
+.contact-form::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,transparent,var(--rule-strong),transparent);
+}
+.form-row{display:flex;gap:1rem;}
+.form-row .form-group{flex:1;}
+.form-group{margin-bottom:1.4rem;}
+.form-group label{
+  display:block;font-size:0.58rem;font-weight:500;
+  letter-spacing:2.5px;text-transform:uppercase;color:var(--light);margin-bottom:0.6rem;
+}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:12px 14px;
+  background:var(--cream);border:1px solid var(--rule-strong);
+  border-radius:2px;color:var(--ink);
+  font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:300;
+  transition:border-color 0.3s;outline:none;
+}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  border-color:var(--ink);
+}
+.form-group select option{background:var(--cream);color:var(--ink);}
+.form-group textarea{resize:vertical;min-height:120px;}
+.submit-btn{
+  width:100%;padding:14px;
+  background:var(--ink);border:1px solid var(--ink);
+  color:var(--cream);
+  font-family:'Montserrat',sans-serif;font-size:0.65rem;font-weight:500;
+  letter-spacing:3px;text-transform:uppercase;
+  border-radius:2px;cursor:pointer;transition:all 0.3s;
+}
+.submit-btn:hover{background:var(--mid);border-color:var(--mid);}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--cream2);
+  border-top:1px solid var(--rule-strong);
+  padding:3rem 0 2rem;
+}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 24px;}
+.footer-top{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:2rem;border-bottom:1px solid var(--rule-strong);
+  margin-bottom:2rem;flex-wrap:wrap;gap:1.5rem;
+}
+.footer-brand{display:flex;align-items:center;gap:10px;}
+.footer-brand-name{
+  font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:600;
+  letter-spacing:4px;color:var(--ink);text-transform:uppercase;
+}
+.footer-links{display:flex;gap:2rem;list-style:none;}
+.footer-links a{
+  text-decoration:none;color:var(--light);
+  font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;transition:color 0.3s;
+}
+.footer-links a:hover{color:var(--ink);}
+.social-links{display:flex;gap:0.6rem;}
+.social-links a{
+  display:inline-flex;width:34px;height:34px;
+  border:1px solid var(--rule-strong);border-radius:2px;
+  align-items:center;justify-content:center;
+  text-decoration:none;font-size:0.85rem;transition:all 0.3s;
+}
+.social-links a:hover{border-color:var(--ink);background:var(--ink);color:var(--cream);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-copy{font-size:0.6rem;letter-spacing:1.5px;color:var(--light);}
+.footer-tagline{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:0.85rem;color:var(--lighter);
+}
+.footer-coords{font-size:0.6rem;letter-spacing:1px;color:var(--lighter);}
+
+/* ─── MOBILE ─── */
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .stat-item:nth-child(2){border-right:none;}
+  .contact-grid{grid-template-columns:1fr;}
+  .form-row{flex-direction:column;}
+}
+@media(max-width:768px){
+  .nav-links{
+    display:none;position:absolute;top:70px;left:0;width:100%;
+    background:rgba(242,240,235,0.97);
+    border-bottom:1px solid var(--rule-strong);
+    flex-direction:column;padding:1.5rem 24px;gap:1.2rem;
+  }
+  .nav-links.active{display:flex;}
+  .mobile-menu{display:flex;}
+  .hero h1{font-size:2.5rem;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-top{flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:480px){
+  .hero-actions{flex-direction:column;align-items:center;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .footer-bottom{flex-direction:column;align-items:flex-start;}
+}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+.reveal-delay-4{transition-delay:0.4s;}
+.reveal-delay-5{transition-delay:0.5s;}
+.reveal-delay-6{transition-delay:0.6s;}
+
+/* ─── DOWNLOADS ─── */
+.downloads-section{padding:120px 0;background:var(--cream3);border-top:1px solid var(--rule-strong);}
+.downloads-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--rule-strong);border:1px solid var(--rule-strong);}
+.download-card{
+  background:var(--cream3);padding:2.2rem 2rem;
+  display:flex;flex-direction:column;gap:1rem;
+  position:relative;overflow:hidden;transition:background 0.3s;
+  text-decoration:none;color:inherit;
+}
+.download-card::before{
+  content:'';position:absolute;bottom:0;left:0;
+  width:100%;height:2px;
+  background:linear-gradient(to right,transparent,var(--rule-strong),transparent);
+  transform:scaleX(0);transition:transform 0.4s ease;
+}
+.download-card:hover{background:var(--cream2);}
+.download-card:hover::before{transform:scaleX(1);}
+.dl-icon{
+  width:44px;height:44px;border:1px solid var(--rule-strong);border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;transition:border-color 0.3s;flex-shrink:0;
+}
+.download-card:hover .dl-icon{border-color:var(--ink);}
+.dl-label{font-size:0.55rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--light);margin-bottom:2px;}
+.dl-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:400;letter-spacing:0.5px;color:var(--ink);}
+.dl-desc{font-size:0.75rem;font-weight:300;color:var(--mid);line-height:1.6;flex:1;}
+.dl-action{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--light);transition:color 0.3s;margin-top:auto;
+}
+.download-card:hover .dl-action{color:var(--ink);}
+.dl-arrow{transition:transform 0.3s;}
+.download-card:hover .dl-arrow{transform:translateY(2px);}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <nav>
+    <a href="#home" class="nav-logo">
+      <svg class="nav-pyramid-svg" viewBox="0 0 36 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="18" y1="1" x2="1" y2="28" stroke="#0D0D0D" stroke-width="0.8"/>
+        <line x1="18" y1="1" x2="35" y2="28" stroke="#0D0D0D" stroke-width="0.8"/>
+        <line x1="1" y1="28" x2="35" y2="28" stroke="#0D0D0D" stroke-width="0.8"/>
+        <line x1="18" y1="1" x2="8" y2="28" stroke="#0D0D0D" stroke-width="0.5"/>
+        <line x1="18" y1="1" x2="13" y2="28" stroke="#0D0D0D" stroke-width="0.5"/>
+        <line x1="18" y1="1" x2="23" y2="28" stroke="#0D0D0D" stroke-width="0.5"/>
+        <line x1="18" y1="1" x2="28" y2="28" stroke="#0D0D0D" stroke-width="0.5"/>
+        <line x1="4" y1="22.5" x2="32" y2="22.5" stroke="#0D0D0D" stroke-width="0.4"/>
+        <line x1="7.5" y1="17" x2="28.5" y2="17" stroke="#0D0D0D" stroke-width="0.4"/>
+        <line x1="11" y1="11.5" x2="25" y2="11.5" stroke="#0D0D0D" stroke-width="0.4"/>
+        <line x1="14.5" y1="6" x2="21.5" y2="6" stroke="#0D0D0D" stroke-width="0.4"/>
+      </svg>
+      <span class="nav-brand">StudioPyramid</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#downloads">Downloads</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-cta">Start Project</a></li>
+    </ul>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="home" class="hero">
+  <div class="hero-bg"></div>
+  <div class="particles">
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Digital Marketing Agency · Chicago, IL</p>
+
+    <div class="hero-pyramid-wrap">
+      <svg class="hero-pyramid-svg" viewBox="0 0 80 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="40" y1="2" x2="2" y2="66" stroke="#0D0D0D" stroke-width="1"/>
+        <line x1="40" y1="2" x2="78" y2="66" stroke="#0D0D0D" stroke-width="1"/>
+        <line x1="2" y1="66" x2="78" y2="66" stroke="#0D0D0D" stroke-width="1"/>
+        <line x1="40" y1="2" x2="18" y2="66" stroke="#0D0D0D" stroke-width="0.6"/>
+        <line x1="40" y1="2" x2="29" y2="66" stroke="#0D0D0D" stroke-width="0.6"/>
+        <line x1="40" y1="2" x2="51" y2="66" stroke="#0D0D0D" stroke-width="0.6"/>
+        <line x1="40" y1="2" x2="62" y2="66" stroke="#0D0D0D" stroke-width="0.6"/>
+        <line x1="8" y1="53" x2="72" y2="53" stroke="#0D0D0D" stroke-width="0.5"/>
+        <line x1="15" y1="40" x2="65" y2="40" stroke="#0D0D0D" stroke-width="0.5"/>
+        <line x1="22" y1="27" x2="58" y2="27" stroke="#0D0D0D" stroke-width="0.5"/>
+        <line x1="29" y1="14" x2="51" y2="14" stroke="#0D0D0D" stroke-width="0.5"/>
+      </svg>
+    </div>
+
+    <h1>Build <em>Bold.</em><br>Grow <em>Smart.</em></h1>
+    <p>StudioPyramid helps brands stand out with precision design, high-performance websites, and results-driven digital marketing.</p>
+
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">View Our Services</a>
+      <a href="#contact" class="btn-ghost">Start a Project</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- ═══════════ STATS ═══════════ -->
+<div class="stats-bar">
+  <div class="section-inner">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Core Services</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-num">3×</div>
+        <div class="stat-label">Avg. Engagement Lift</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Business Day Response</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SERVICES ═══════════ -->
+<section id="services" class="services-section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">What We Do</span>
+      <h2 class="section-title">Our Services</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">01</div>
+        <div class="service-icon-wrap">🎨</div>
+        <h3>Brand Identity Design</h3>
+        <p>We craft memorable brand systems — logos, colors, typography, and visual guidelines that position your business with confidence.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">02</div>
+        <div class="service-icon-wrap">💻</div>
+        <h3>Website Design & Development</h3>
+        <p>Responsive, conversion-focused websites built to perform at speed, look great on every device, and build lasting trust.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">03</div>
+        <div class="service-icon-wrap">📱</div>
+        <h3>Social Media & Content</h3>
+        <p>We plan, create, and manage social content that increases reach, strengthens engagement, and supports long-term brand growth.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">04</div>
+        <div class="service-icon-wrap">📣</div>
+        <h3>Digital Advertisement</h3>
+        <p>Data-driven paid campaigns across search, social, and display — engineered to maximize ROI and generate measurable results.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">05</div>
+        <div class="service-icon-wrap">⭐</div>
+        <h3>Reputation Management</h3>
+        <p>We protect and elevate your online presence — monitoring, responding, and strategically building the brand image you deserve.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">06</div>
+        <div class="service-icon-wrap">🎯</div>
+        <h3>Lead Nurturing & Strategy</h3>
+        <p>From first touch to final conversion — we build automated nurture flows and consulting frameworks that close more deals.</p>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PORTFOLIO ═══════════ -->
+<section id="portfolio" class="portfolio-section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Featured Work</span>
+      <h2 class="section-title">Our Portfolio</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="portfolio-grid">
+      <div class="portfolio-item pi-1 reveal reveal-delay-1">
+        <div class="portfolio-img">
+          <div class="portfolio-img-bg"></div>
+          <span class="portfolio-img-label">E-Commerce</span>
+          <svg class="portfolio-img-watermark" viewBox="0 0 80 70" fill="none"><polygon points="40,4 14,62 66,62" fill="none" stroke="rgba(13,13,13,0.6)" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-content">
+          <h3>Scalable Online Storefront</h3>
+          <p>Mobile-first e-commerce site with integrated checkout, product filtering, and analytics tracking.</p>
+        </div>
+      </div>
+      <div class="portfolio-item pi-2 reveal reveal-delay-2">
+        <div class="portfolio-img">
+          <div class="portfolio-img-bg"></div>
+          <span class="portfolio-img-label">Brand Identity</span>
+          <svg class="portfolio-img-watermark" viewBox="0 0 80 70" fill="none"><polygon points="40,4 14,62 66,62" fill="none" stroke="rgba(13,13,13,0.6)" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-content">
+          <h3>Identity System Overhaul</h3>
+          <p>Complete rebrand — logo suite, visual language, and brand documentation for a growing startup.</p>
+        </div>
+      </div>
+      <div class="portfolio-item pi-3 reveal reveal-delay-3">
+        <div class="portfolio-img">
+          <div class="portfolio-img-bg"></div>
+          <span class="portfolio-img-label">Social Growth</span>
+          <svg class="portfolio-img-watermark" viewBox="0 0 80 70" fill="none"><polygon points="40,4 14,62 66,62" fill="none" stroke="rgba(13,13,13,0.6)" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-content">
+          <h3>90-Day Engagement Sprint</h3>
+          <p>Creative direction and posting framework that tripled engagement across Instagram and TikTok.</p>
+        </div>
+      </div>
+      <div class="portfolio-item pi-4 reveal reveal-delay-1">
+        <div class="portfolio-img">
+          <div class="portfolio-img-bg"></div>
+          <span class="portfolio-img-label">Print & Merch</span>
+          <svg class="portfolio-img-watermark" viewBox="0 0 80 70" fill="none"><polygon points="40,4 14,62 66,62" fill="none" stroke="rgba(13,13,13,0.6)" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-content">
+          <h3>Print-On-Demand Launch</h3>
+          <p>Custom apparel and lifestyle product line for creators, launched with zero inventory overhead.</p>
+        </div>
+      </div>
+      <div class="portfolio-item pi-5 reveal reveal-delay-2">
+        <div class="portfolio-img">
+          <div class="portfolio-img-bg"></div>
+          <span class="portfolio-img-label">UI / UX</span>
+          <svg class="portfolio-img-watermark" viewBox="0 0 80 70" fill="none"><polygon points="40,4 14,62 66,62" fill="none" stroke="rgba(13,13,13,0.6)" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-content">
+          <h3>App Interface Redesign</h3>
+          <p>Modern UI refresh focused on clarity, accessibility, and intuitive user flows.</p>
+        </div>
+      </div>
+      <div class="portfolio-item pi-6 reveal reveal-delay-3">
+        <div class="portfolio-img">
+          <div class="portfolio-img-bg"></div>
+          <span class="portfolio-img-label">SEO & Content</span>
+          <svg class="portfolio-img-watermark" viewBox="0 0 80 70" fill="none"><polygon points="40,4 14,62 66,62" fill="none" stroke="rgba(13,13,13,0.6)" stroke-width="1"/></svg>
+        </div>
+        <div class="portfolio-content">
+          <h3>Organic Traffic Growth Plan</h3>
+          <p>Content system that increased search visibility and drove consistent inbound leads.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ DOWNLOADS ═══════════ -->
+<section id="downloads" class="downloads-section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Brand Assets</span>
+      <h2 class="section-title">Downloads</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="downloads-grid">
+      <a class="download-card reveal" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNCAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YxIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKMyAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYS1Cb2xkIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMiAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0Jhc2VGb250IC9aYXBmRGluZ2JhdHMgL05hbWUgL0YzIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNSAwIG9iago8PAovQ29udGVudHMgOSAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA4IDAgUiAvUmVzb3VyY2VzIDw8Ci9FeHRHU3RhdGUgPDwKL2dSTHMwIDw8Ci9DQSAuMjUKPj4gL2dSTHMxIDw8Ci9DQSAuMTUKPj4KPj4gL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL1BhZ2VNb2RlIC9Vc2VOb25lIC9QYWdlcyA4IDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKNyAwIG9iago8PAovQXV0aG9yIChhbm9ueW1vdXMpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjAzMjgwNTUyNTkrMDAnMDAnKSAvQ3JlYXRvciAoYW5vbnltb3VzKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjAzMjgwNTUyNTkrMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAodW5zcGVjaWZpZWQpIC9UaXRsZSAodW50aXRsZWQpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKOCAwIG9iago8PAovQ291bnQgMSAvS2lkcyBbIDUgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iago5IDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDE4MzYKPj4Kc3RyZWFtCkdhdTEvaGMmUG4mQkVdIj02cmtAXSo9ZlBmcDtUZjQ1YC9mSllPTyVoVjhNbSwkI1p1Z1MwdUM6JmsnbUFFT2E8OCFwKmZpKysoN2V1UixHWzE3bGpKI1dINC9ISiUwaTU5MTdQZWdsNzFhRjU8MCZeN3ArREkySSUuSFRfTSIvVyQnVzRkaks/RE4iZFlLUmhgSzViOyxZPUZpWF5Mak81XzpFIjJxc1tnP08lai0tXy88bF9TXD9sZi5TPj5PPTROPTZrVSojXGh0MVwjQ2pHUjhUXlAlNiIyR1omRWtUO0BnWE1DQVxCWmRNL11tKT8wcl1Wa21NIyRqNVVBU2RyPVAxLGFdISkyQCxvLVE9SzEtOi5bX0paMkMjLCkrMmosV1BDKFpBKWg0MWprKzZcazlUJ2NmXnRVIWpaS1g1QD82cVxtZDlcUGxoZk1ZMEFrW1UuUUA4Ik5TaVlRSEB0KnNhNFQ4U1F0dUV1Y2BeRy5JQFVbR0IkJSdxY3E9MWVBNVByM01NJ3FLKzxlVChQN2dWbThsP2ktL1cwYCsxJ0FrYjpzTDlicm8rcWxyZS9DPz9gcSJ1QVtzQTBScmRuOWJqcGRKNmZeKF8mcjhPbVBmOCstbmA5JDNrXiRgaWJtRVNdODlmXylPOlkjXS0vPUk6Xj5GPU4pUChmZGAjLz9JbkdLbEM3ZDxEaTVdLC85JWQscGk3NzlJRS87LkJrXTRsJ1U8NkhhMV9LQWxCOHMrT2NuQUYkayUzdHVbQSU8Ni1McjpuPWlBOUFbRW1qZlxTcFRhZ0lUYGc7aj5XRGBKRDpWP3BWTVdTIlsobEpVNTVMLjZuJjBQQDFqRTxnIkxUUFRFTVI8JzkzRD1pPENbY14wXVVtMGZsb2BEZS83I2QtOGomKS87dGJkXUxsX1tRXGcqalQhZjlIM2h1KiUnQ1RVSnFVKFU1MWtEUjpPI0pVJWhtY2EkOys2ZUpFVWpccy8sNUI+Wm1WIW4uV05cPC8jVEc8Um5fZ2lLcyJJWzQhKWxgOEAoaG9XNUhbLjhURDk+cjsmSG1dOjtqIl1hWypaRHBuLzFLMjJEV3BzITBDOSEiQl46NTNjJmVAbz40Zls0TjtcP01wR0lnVksxTDhhSSNXJDFhZSYnMSI9MUtFYl01WkA2I3U1XlhGXCRWSjFePE8pNE1kNSFrLS9mOUczQCMsbGpxNjZga3MySSwiVFghLW5GJHFUUyxFUj5RaEQ5S2NNK3MvYmBSakAkRGZSXGxuW0wqMVtfXiNcS3RKZG4+bERZUkIzYWRMUDU1Z0sjKGRhPTsrPlh1W0whcC1ATCI5Sz0tI2QqLSYnYXU4Z25jdW9vKUQ8QF49bltgXzpdTjh1VD9OVk8vI2BoPT9LNHE7YFVVdGtwVydGRSknckEjIzxIQlEoZ2JpNSRZWT9aTFtSNzpXSmVIQG0/OWU0aVouTyhdMkgsVWlFaHROQzsqaUskZWJmc0NKX1BgSyMrXighUnAlXiI/XnFuU2xbYDdPVlI7UXJXV0w3VUQ2L0ZnS3RFWiZaNWdfTGhiVklFI0wnJEltU3UwRmkiajRcYlg3PXFZamUxYkEtYmwrJ2U3S01xU0JdYlM/WWdSWjxCSUJWZFA8bWwvT0xgNzwlYS1ZckVSN0htRlFkQk0xUWpbWSRpXVE0cFVZbFVRMkE6Y0AuJWxXY0E+Yi9YcWBdP3FCb3FVaCU6LFVQJzo0N3RTIk5CSG1nO1NlIjg4O1x0Z1JURlpoTGZMYVBjQSxkal9Bc19kW0xcJ3NGRWhVQTgtaGE4czQ0JUc4JjxJQ0JGZDQtUzc0MVo7aXQ8YmIhP0UzUC4lTCtSKzA5ZTc6UWpeSzgldDdkcjdySzxqa0JSQChfISFvbCo9PkwxQUYqTkkjOS1ZKCFRYmVecjBxblhwZ3FvSlpwYVs7Ii10bmJdSHJwI3UraWJJZDo9MjFEXjBmKWNJTUJlJXJzPWxQa1hyOD5DalglITItVmF1K2BNZGsnXyQlQFZhT2E3SiJALDVSaUZHSDg6bmItNi46N1lBX1ciJnVhTVoxNUElNyF0JjZORWciaHM1U1JpYVcocmpvLzAiJSkwKWtlJS1SOEs0XUI3KiNmTS9vZE9wXkldY0JPXjpjbzhCVyNvISIjRjVWTVFQWFtOWGZrXjlTaWRdOyMpNEtiUjNyUFFTIzg9RjtPWlslal5nWWxNSjpvUjIzZlZgWCJhPGouLkhkT0hdclRCMWBwRWxOVFBaJnAxbWIpXzUtUmBDalElTCJpY2leMWw/a1puc2Q1TEhOPWdvWyg8ImxhJCI5TCJkOi1TbzxMUC5hbGRyZSk1cVhGR3FGWiFUMEtPWi1sNi1TYiQ0WjtYL2otOXQ+VXMoclthLUlDSHBGckc3TEpTc3BtXi9yL3E9cixINCElL3BGTXE4bTp+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDEwCjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTEyIDAwMDAwIG4gCjAwMDAwMDAyMTkgMDAwMDAgbiAKMDAwMDAwMDMzMSAwMDAwMCBuIAowMDAwMDAwNDE0IDAwMDAwIG4gCjAwMDAwMDA2NzYgMDAwMDAgbiAKMDAwMDAwMDc0NCAwMDAwMCBuIAowMDAwMDAxMDA1IDAwMDAwIG4gCjAwMDAwMDEwNjQgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8NDYwODAzMzg3YTc4NTM3NmUyMWEyMjhhODk4NTljOWM+PDQ2MDgwMzM4N2E3ODUzNzZlMjFhMjI4YTg5ODU5YzljPl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyA3IDAgUgovUm9vdCA2IDAgUgovU2l6ZSAxMAo+PgpzdGFydHhyZWYKMjk5MQolJUVPRgo=" download="StudioPyramid_Services.pdf">
+        <div class="dl-icon">A4</div>
+        <div>
+          <div class="dl-label">PDF — A4</div>
+          <div class="dl-title">Services Sheet</div>
+        </div>
+        <div class="dl-desc">Complete list of all 6 services with descriptions. Share with potential clients.</div>
+        <div class="dl-action">Download <span class="dl-arrow">↓</span></div>
+      </a>
+      <a class="download-card reveal" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNCAwIFIgL0Y0IDUgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZCAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjIgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago0IDAgb2JqCjw8Ci9CYXNlRm9udCAvWmFwZkRpbmdiYXRzIC9OYW1lIC9GMyAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtT2JsaXF1ZSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjQgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago2IDAgb2JqCjw8Ci9Db250ZW50cyAxMCAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA5IDAgUiAvUmVzb3VyY2VzIDw8Ci9FeHRHU3RhdGUgPDwKL2dSTHMwIDw8Ci9DQSAuMjUKPj4KPj4gL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL1BhZ2VNb2RlIC9Vc2VOb25lIC9QYWdlcyA5IDAgUiAvVHlwZSAvQ2F0YWxvZwo+PgplbmRvYmoKOCAwIG9iago8PAovQXV0aG9yIChhbm9ueW1vdXMpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjAzMjcwMzAyNTcrMDAnMDAnKSAvQ3JlYXRvciAoYW5vbnltb3VzKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjAzMjcwMzAyNTcrMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAodW5zcGVjaWZpZWQpIC9UaXRsZSAodW50aXRsZWQpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKOSAwIG9iago8PAovQ291bnQgMSAvS2lkcyBbIDYgMCBSIF0gL1R5cGUgL1BhZ2VzCj4+CmVuZG9iagoxMCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCAxODQwCj4+CnN0cmVhbQpHYXUwRDlpS2U7JkFAc0JvUlIrdE9DbDNrcDlYcjJqXVg/QGdYSzkoXDBzZylnOWk1LVtaZXROaF1CbipWO01vazxoS2VWWSpqUyMycjFaYUwnKzJYP01raGkhVCZtcW9UQjptMFVfdUNXKmpdVmgsK0Vqbms5JEgzNEZYNkpuc0JpVDZBWGxZNGBjZmVIVlEna2FaallhIls9Y0sxbil0VnRoMDdGalJyQFJPVDpMQVgobF5CXiY+VEBEUCFhZ11yY1RMN05oLl5RTDBNbmVSNGwlXWxIWkA5VUw7KD9LNFhZXTVaTkUhOCUkQ0ExaVAscT9OOm0nQVFVKSFkIzRqMjhHSktldC04QUlLVS4yOztebzgnKmFES2dmRWBZcVQ0UVwkQlcjSSJPZD0kYkpnY0k1MDRxPSsiZjtOKV0iODVpV29eVWBCaE1iNlo1QUN1OGw2bGJTVyJnTnAqRWZaSmhwYGA+OyRHaDRFZ3BETFNPR0Z1LFpITTw4ZE1WbS4/NTw+YFNwam1AVVBWX1ZWWlFbRnFRIitAZGxaPGlwVUVkWGsoZTEyR0JaTTBSS2RSLCxdR0g7Z3JyYFVxOC84YDJeXFw0KUomMT84LCRCLGRhcChuLkVyZkAyKk8oRDVwI01cViMqaCpUSi9zWzwvcGIiN3AkNENeRVUhPz9CUDVbcT9JJj84RUgkKk1dO1U0QiY2PEtUaGBlTVtuRF5MI24ycidjLCVVbWMoa3AwYT8hcicoPF1SaD1VXCpMSkRVVmFPYGpkWioqKmc7TVw7UHMjIUtKP3IudHA8Sko5Py9lKWAqTFUiaydqZl1tcSlFOGVqQlVXbENqJFFAciMuPD9eYGUiVjwsOFcoXEBgJVotYy8jIj4+I1xnNlg6NDckOEdpUFY9NGhXblA5Y11xIitsalNAVThwUSc1YTkoVVNacS8xOlZaPj8lMzFCNFZSNGdsVUQsRztJVz1GJ2gyMXA2ISRsZ185bDo9LnQ6T3QrNnIsWCw6OyhGKCVkXUpGMUpFaiNUciUkIk5jZ2BQLz4wJiY2My8oQi8mRWZbXGZkXj1EbmhHa1A9b05WPCpgbW5pcyxRY2BoXzBlYGUldF4vXzAiJ2pmYUtsUCkvQERiNG0iNks+LXFJaSJdQCJpQmhvJ2ZhS25JTj08cSYnPzZncVtiIkwrYjNca0xiJE4qOk5LJk0zQVYoPVsuKUkwQz1ELE1ZaDdBYSskV29BPDBSXl42Sy9eOHFbOW9QNykyLD8hP15ISWYwWiM4KFY5UG5VJFFiazxhVVtoJCY9XS4tQG9nXjk7NWI6Zj9VP11SSDk+UyRKSVclJlo+TV5YPUMhSz90KGJWZlE3LzZxbF1PO2IxQ09kR0lDOmlpSzVxVDMqRElsMDkuVS5nPjokXE9LTDsiQUlxNTgmNlRRNHVsMDotXFhQYG0pb1hUVCpLTChdPFs4XmlAWyU8JT86WipkLkFGXkpELlo8Q1VJOGFDRU0hJyZFb1AhazsmajAjJ1dRKiFjRDMkakRrViRjInJiQGgrQ1BgImk1PCN0L0M8RXRAb0Z1V1JJS1tZV2xFNClzWWFBcUc4YVRaI0dkKF9cXVFSUE0oT2hhb3VMJi8nUypNXFE4J0IiRlAjdEtkPEUmMTw4WDBULTg/QStHU0tJRW5FZyVrKUw9NURILkxlcjJWWiFNQEs4NT0zWEc0QjZSZTw4VC8qNEEwQDwvTlAyXVgicF9bWHVmNDlgMS1IODkqLkZNJ2JcQEo1cTFDaEUpKSxkMkxbdGdmOmN1UkdzZklIQDg9SV4wXmNNYi5rQ0A0Pm48U0VuM1lDVFMvKFlPNSpsS2M4O2k9WkciJVEzKUpwTS5JMGkvQSlyLzVNMVV0I2dbRC9KQD9mamdpYU1SOUpJWF9eRWhlYDVdbzhGSHBcYWFJVlZBbEw/R1BMI0orXFtcKGdfN09HIUwmJDlGOjhbLkZhKXVrVChnPWJRR0tdR2ZsNGxxMi8sPj86cjlWJCtmL0dnTHJ0U0ctbyImTUFORXMuWmlxbCEvWzwscjc+IlUoVitcXDtUcTZuVGdGWGRkRTNkQyhXQDhDUmgxRXRRcSxZY0RVJmRhMypqP0dOYUwxVG1HWGpcb1lPNk1eM2M9MmQ2bWdmXVdCIVpaY1ZkbzEwXV9bQDJAK08xYTQiaD1cYilXa1U5LGYxZylyTGw2V2pUWEBWLUAtJl8+Lk90TTM8UmdrbFBQRD5PNllRLTJXQG05IW9bIVlRcS5IRlZpTElFc21VWSxdXEhjYjktJFRePUdhTnRMSlBcRldCbT1NSz1XOFEqLiVlbiMwXGJlPkRYYWBpRj4tQzs5TTRqPixRP3EkIm9dL3FHKWE4XzheSjNsZzE7ZSlpaGBZOC1RdFs6MWwxTzwoTzMnQU1BZ2JzOzUoVT8pPWAjZDVyV0RVY1MobX4+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgMTEKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAxMjIgMDAwMDAgbiAKMDAwMDAwMDIyOSAwMDAwMCBuIAowMDAwMDAwMzQxIDAwMDAwIG4gCjAwMDAwMDA0MjQgMDAwMDAgbiAKMDAwMDAwMDUzOSAwMDAwMCBuIAowMDAwMDAwNzgxIDAwMDAwIG4gCjAwMDAwMDA4NDkgMDAwMDAgbiAKMDAwMDAwMTExMCAwMDAwMCBuIAowMDAwMDAxMTY5IDAwMDAwIG4gCnRyYWlsZXIKPDwKL0lEIApbPDVhODczN2ZlYjlhZTk0NjU5ODY2NmEzYjFmOTc2YTY5Pjw1YTg3MzdmZWI5YWU5NDY1OTg2NjZhM2IxZjk3NmE2OT5dCiUgUmVwb3J0TGFiIGdlbmVyYXRlZCBQREYgZG9jdW1lbnQgLS0gZGlnZXN0IChvcGVuc291cmNlKQoKL0luZm8gOCAwIFIKL1Jvb3QgNyAwIFIKL1NpemUgMTEKPj4Kc3RhcnR4cmVmCjMxMDEKJSVFT0YK" download="StudioPyramid_Pricing.pdf">
+        <div class="dl-icon">₎₎</div>
+        <div>
+          <div class="dl-label">PDF — A4</div>
+          <div class="dl-title">Pricing Guide</div>
+        </div>
+        <div class="dl-desc">Design, print, and package pricing tiers. Updated recommended range included.</div>
+        <div class="dl-action">Download <span class="dl-arrow">↓</span></div>
+      </a>
+      <a class="download-card reveal" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNCAwIFIgL0Y0IDYgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMSAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjMgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtQm9sZCAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjIgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago0IDAgb2JqCjw8Ci9CYXNlRm9udCAvWmFwZkRpbmdiYXRzIC9OYW1lIC9GMyAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL0NvbnRlbnRzIDEyIDAgUiAvTWVkaWFCb3ggWyAwIDAgNTk1LjI3NTYgODQxLjg4OTggXSAvUGFyZW50IDExIDAgUiAvUmVzb3VyY2VzIDw8Ci9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLU9ibGlxdWUgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0Y0IC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNyAwIG9iago8PAovQ29udGVudHMgMTMgMCBSIC9NZWRpYUJveCBbIDAgMCA1OTUuMjc1NiA4NDEuODg5OCBdIC9QYXJlbnQgMTEgMCBSIC9SZXNvdXJjZXMgPDwKL0V4dEdTdGF0ZSA8PAovZ1JMczAgPDwKL0NBIC4xOAo+PiAvZ1JMczEgPDwKL0NBIC4xMgo+Pgo+PiAvRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKOCAwIG9iago8PAovQ29udGVudHMgMTQgMCBSIC9NZWRpYUJveCBbIDAgMCA1OTUuMjc1NiA4NDEuODg5OCBdIC9QYXJlbnQgMTEgMCBSIC9SZXNvdXJjZXMgPDwKL0V4dEdTdGF0ZSA8PAovZ1JMczAgPDwKL0NBIC4xOAo+PiAvZ1JMczEgPDwKL0NBIC40Cj4+Cj4+IC9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago5IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgMTEgMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iagoxMCAwIG9iago8PAovQXV0aG9yIChhbm9ueW1vdXMpIC9DcmVhdGlvbkRhdGUgKEQ6MjAyNjAzMjgwNTUyNTkrMDAnMDAnKSAvQ3JlYXRvciAoYW5vbnltb3VzKSAvS2V5d29yZHMgKCkgL01vZERhdGUgKEQ6MjAyNjAzMjgwNTUyNTkrMDAnMDAnKSAvUHJvZHVjZXIgKFJlcG9ydExhYiBQREYgTGlicmFyeSAtIFwob3BlbnNvdXJjZVwpKSAKICAvU3ViamVjdCAodW5zcGVjaWZpZWQpIC9UaXRsZSAodW50aXRsZWQpIC9UcmFwcGVkIC9GYWxzZQo+PgplbmRvYmoKMTEgMCBvYmoKPDwKL0NvdW50IDMgL0tpZHMgWyA1IDAgUiA3IDAgUiA4IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKMTIgMCBvYmoKPDwKL0ZpbHRlciBbIC9BU0NJSTg1RGVjb2RlIC9GbGF0ZURlY29kZSBdIC9MZW5ndGggOTc1Cj4+CnN0cmVhbQpHYXRVMWdKWmNrJSI2SCdrUmYzWFgxZHQrXFRbMkQsVU1qXCIrO2tbIjdHNTplImVSRj9gZmxXOWF1PyVBMHI4PT4rTzMrTmc7cyJRXHNcOiJRMVxaSy8zUmxPR25dSEMuTFArQyFzaGpLOTNrVk9nRFxtMSxjckdYdHFbJ1JVQXJRQSYycUltdDZDQCMsQWpBJDcjPj5eMEgtUlRTR2JFPEkuV3VDOmpGU1BYamMxIjZVK2tMX3EkJTQkVD91QTUqcGszNC1oUkUrQ3RcUVM4SSk0QXJRPitTZzd1KWZyKW0/VV8tTnBWLk91cF1jR1ROKGBCMS9VUl9xV1MoPWQ1K2pScV9QNE5Ob0pOUl9bXkU8VDp0ZDMmK1xVXkNXYixLNG5tY3InNSw4dFVHbm5Kam08S2EyM09JYV1TUWNLWjl0bWFoWSc9VXBHSyE6V1wxPmouYFNMJTlVM0FObjxkX1oqUiUzciZWXm9yJixyP0VcanU1JiovJDBMNyVKKiRUYltCWGQ7MzRJWjdnOUNJVz5mT1Q+ak1QO0YhRjpVNEoyJS5uY1AmZzZFYSp1PWkzaVksMnQqLCEzNjgtKWNQXTJbKT1PNUBKZTBVUE9pWjxJV1ltMj0kLFl0IzZIcmVJJ0tHakZhPGNEcjFuV2EuQGlAIjpZLjA5VGJvaEJCMHViP1g/dUlkVS1mbmEsb11wbGpXJzxDbCNhRUdoPD9ua0IlV0NPIVsjZWsySzk6UW45TW9aOG4mcD4sTTlpI1dicEVsKC9SZE9RLV8xQy5wWWghaVxCXF48KyR0XU00aEQ7WnIoTURXbj8kS2QwbG9qSzNnPmpPKUoiIVBIbTA3aCtzcmgkMVFbN3AoJ0JzLV1QKCcmXCEpaFFJVnEwPGgrdWJXLmtTI0k2PmZda2xOS2M4YlRpVG85UTJebFcoJEk8bm83VztPUSNzSFYhPlEmOGlTYF5LOyE7KT4jITVrcC4+UFlXYSZCb2d1YG4qVEdVKW5TQWRAQ0Vzbz0nOFhoQlwzbStQM1BNYzM/MGtjOF8uImUrZFVHXGRaZnJrWzE0KzotanFSU2dndU9rJCpLNj8ibyYmLXEmT3MpZS9GRzxdMTt1VnAvZE0yPlVgPmxjV1o9JGJpWDxJKWVQIz9kSVE/R15uNi5WKVlbXHQ3K2dPX2NnKF8pQ1NKZSNwT1cybiNySFFFZSpcNXM7LmVMITo4P2EhZ2xPKWdhWi9DN11wIzBlT2skb0NULUw0YiUjXT1nVW4ySXJqPl4ubjlNK1hZbHEkLyQsb2U/fj5lbmRzdHJlYW0KZW5kb2JqCjEzIDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDE1MjIKPj4Kc3RyZWFtCkdhdTBEZ0pbJyQmOk5ebHFMTTZqJE9oKmtqPS1TO1VuJEVbRSQtVWY2LSpRMjdAIm9iTD5CVT85OXNGTytxJVBzRypOOmtWPEtmIUZTQm1IIVFAIXU1L1JdQlk2LWFEQF9hcjM3X2c6MzBLPWdEQCNJIy8tak51bzFFJz8/UF1pLkpcISQjWmpWNlpDQnM8YTRDUnAxJ19zJCtyVG8uaXJwMl1dWCg6IUBmTylkbUhlNUVMTDpyM2lWXEgtMVRAQlQ3XWlVWllpZCFMSjVLPCpwLmdpWClDYylhKUhERjkqa1w9bW4xRTxKTG5ea14rTFQ4M0EkMzwvbThkbjBSWSM2bk9Dbj9HJFEnJzBMLVhwXFNGOV4wX1FSPGQ+SmshVXE6LlRiZTlxU2UzbmkmWFUoK0RzL1M0PWRmXzxaJ1xKSDFPJVZIckBhbzBfJ0BII1FPVTxAViYhcCRBcjtHPWlPaE4kNDVdWW85Q21zQiloKVlhTlAzbVEoL3JsaXA/RXJrNWgpWW9lKkVEXiRCa2M1OFtgSWs3a3IzKChpNEY1VjpCUGFqcT1GW2VeRXVhK3EqaD1DdGldSyFZPlBaZm9MaTZcQkcpJ25faz1NQy9oZ2coRkBWLEQuRnNsck82MXFFMnVySE9uKUpMTTdNdUsnWEc4ZGlhQmU8N3VYUyVgV3JxN1I8K0VpVj1XRitKNEBdY1o9b2tvRlg8XzdvLFQkZDAxRSkmRUIiQi1WS2glST5SLEpib1hKQWAhTjA2Ji5DQ25gKW5nVlNRamtQaSVXPGtvWjg8bzU9JlVkNi9mbEErTkg5LkJgYmFjQWxDKlVpOilpUlpNXGxZJzo6MHEoaF5MPGFsaCYySk05ZWI1OnBvU1g+YlhiNidPYytLU2c1Nlg6MU9TYW5JOTNrK0FAVEUwZWU0QEQyYyxhcE0laFsvdFVmLHBhMEdBKmRnRElJLVF0aT9qVFUhXypjTkpISGFjZmQmITpdMXApZyRMOGI+JTZTOlBQKXBlVSdWQyx0SUgxVVwlJk9QJG1TVWEzTjMnWG9iSERQQzpeajkwYGg3aDA0NzhhN2V1Vi9wMVNUaThibzNzcl1yTUBOWTtkclFMXzUkK0doOmU6IXBgVDBWSkV0ITA8OD1jSy9nbChdP19aY0pmcidIMEMtcFxSOkVFVC1fMk1kLmFxcEdDJFVqQE0mLk8+TVFOOSspZG9pMVYtYlZMWjZbcUZrRC9BREwwJyZXPGphbmtmWGctO0JkL0xBOyduMWU9aTg/TVghRC9VTlAkQGkjTj1eU0tMblxEQSJsRUVfVV4jQTY0Y0x1Sy8nbkNgZ1U0Oyd0cTZqKzBaOEg4IygyRWotakJVYCo4MFBDYFBFZyFgUFhGMih1dUplI1Y/ZWkxdFFYPUwvdFQ+TWg3SG9MaUQkL1lUdVc5UFteUjV0LWtNNShkcDg8cFtvXUQ+WT43OGttSztMOjtCXjxnOG5VS1NGPjZsMlM2cy0oJnJ0XGFQKU5ORWBWT29HQnVAb2dAYDJaK3NpVDw+VFdyLTAqWUgydTNcbzZFPkFYP1NmRUxgJDZlXS5VYnRTRzcmPVlTPF1oP1svOzI8OW4jYlpNO3RKUGN1ODxdYzFecDEsSkwnNlRHIypSTVxiX29MQSxVNCVkW1hgM0s9RlxENDo6VWo4QiZSWlJFZydDOjxQYS8xO2dtbkNCUyxadXI1U1tpMjxOUmxBXjdaYGMwZD5zQlRuRTVaYj5nRGVHV1cuZSlxUGdcQmpRL01xRiZtRkhvMCxhMG9sK1RaISg/PElXZiZVaW9mVzQtaXM0KW4yWklONVoqM1NVMVckMEk3W1hNQUY3TTctZTgkWy1NX2ghNi0zJSwsV2ojSCJTXCZRS2pJVV5bc1VzcVpCMFU3MUdMOSdLSFIrTEVeZlZwPkphdEE6JUVsclhnazhWMnJjbz5mL1FvXkVaSGs9Jk8tVUFIMTBWJ2NvW0VFTig2b0FuLF5fc1VXMSRvbCxLcm9oKiY5KFxAfj5lbmRzdHJlYW0KZW5kb2JqCjE0IDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDEyNjkKPj4Kc3RyZWFtCkdhdTBCPkFyN1MnUm9lWzMiT2NqRnJfZ2E2dW1XV1JeZCg5anReL1c6YjlNV2ZYL2psJm1cKGhPYWssNWZvRzFENzVFQXRARklDYUgrcm1ALnRuOGRbL0QkXCE6TE9bR1lgbEc4MSRTKiZXaEJuSWFUSDFSInRicVBjPlIlN1YtRC9iJ0lXRzxaNFBzT3RnVzlNOlAtYEFSWS8sN2o4aTBUQyQzL2ROXVlHR2EpcFo3NGRIQyYnNlxrUk9NJzombyoiLiRjQ2ZwVF85LVMiNFAsSG5DQW1qJ1tyPVlHWVEqY2BzXC5VT3MwVXJKNjBZTGxNMHVRL2pCZFRjVkJPLjZoMitYMm0mZDpMRE4nWmY9RUIvVE0lTCdaVnNsSkxubU1KV1wsaCVmbz91ZEZsciFIbWpSTGwnc1NzTy8lLG9ZbiJcW2taQFZWU1lsQWVUSWVibixVKlhzYjc4Y0gwViwyXDFKZidSJTdbPjoqSip0RWhXWCtUXEJPTjplXzpdQktLJDIhTDsxQ1FRKEBacm1uP0l1clgqXUxhMSpQJ2tOaUNZZEA0Yl1PXm1HYXRfVyxjSyFfMV1pN2JIPG4oZiRtYlMzajs3ZDhaVWRNSktqLTVYbXVUZlY3UDZLOyYnT21PQztRYGwhZVw+a289ck1VW28kPkpZUSVfM1ppcUFYX1k5Z3RnWktTb2Q+OD9RYGlRTi9DJS9qTTlXX2dBLyREPVNLTnRKNVpoaTxhIUBFcTA+IT8jOzQ/bT9lVzorPXJwQTwoSTlBVlRxJD5rXS4ydSRXYTVEYigpRidAXGU8MG5ONzdZQnF1Z1c0UzNUQU1fOjo3MGVcbyY9TmFEbzExUD9YZzQ3RWFPSS0lVmliQUZyZClePCI7LkBiWFRqVkVrLFBRO3Q4MG9AKjNbJklDOEBVdDkrPidEKmw4akhyLCRvREwuTmZhNDZacks4M1pUcXRcNlE1Q3BZJjxJIjJlV2BUR0BjdFhONCVRaSg+biltVFxpISJULXJOYWkpNjpJLTxXOkQrKFReaW47WEdqSE85SyloKl5TOGRaa11JOiRyZzlpUG1mVFImKmdDMEdbaTFMSyJmKzwwLXQkXjRqUUE4OGpAIjtUcG10aFYjSWhKcFtGLiQxXTRWcj48WkJjbUknZExVUTgrLmM8V0QsLEdTTFM0Uk9SPUxeO3E1WV9XVThSZidiaDdYPWVEWEg3WVlubm4sNDJbLzEvP1t1UkxlT1xqXVgjMEhnWkdTQmBkMyIqKHQ4SWNwaWxWQ3Fnc2ZpPzAvdDk1J0B1Im4jTmc3ai81Wk8rNFxcVVlvR2o2YGBORUIvNFVLQlk+SXJBNDFma15sJjdBMS5HUUpZamZNYGNvJjkqOSYsOjZkIm4rKUtFLS0oYDQ/YCpDOjx1X29nT21jIikmK2JBJnE+bWwpQkElQGRfTytCRVgzZmVaQjBFXylwNytgWGQyXCRtZGJBPVZxTXFGJ2A0dEtPT1wzSDdec1UvVHJuI2dRJVshVFEiKSlkOC5nUilhKV4kLzFDSDtaN2MpXGU5UDxBR0w1dCI8NztHYWtUVnBiZ2I7dUdCYyhaYmA2bE4zXyZkYSZEYCwxaEE+ZEc5al46T1twNGR0cyExUnAuPjFAaUVcZEVgTjA/ZjstMHI+TFZNXkk0U10qRDwrIysnMysmMiN+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDE1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDA2MSAwMDAwMCBuIAowMDAwMDAwMTIyIDAwMDAwIG4gCjAwMDAwMDAyMjkgMDAwMDAgbiAKMDAwMDAwMDM0MSAwMDAwMCBuIAowMDAwMDAwNDI0IDAwMDAwIG4gCjAwMDAwMDA2MjkgMDAwMDAgbiAKMDAwMDAwMDc0NCAwMDAwMCBuIAowMDAwMDAxMDA4IDAwMDAwIG4gCjAwMDAwMDEyNzEgMDAwMDAgbiAKMDAwMDAwMTM0MCAwMDAwMCBuIAowMDAwMDAxNjAyIDAwMDAwIG4gCjAwMDAwMDE2NzQgMDAwMDAgbiAKMDAwMDAwMjc0MCAwMDAwMCBuIAowMDAwMDA0MzU0IDAwMDAwIG4gCnRyYWlsZXIKPDwKL0lEIApbPDcyMmRiNTRiZDNlMzYwZTUwNjAyMDA1YzJkOTQ3NTljPjw3MjJkYjU0YmQzZTM2MGU1MDYwMjAwNWMyZDk0NzU5Yz5dCiUgUmVwb3J0TGFiIGdlbmVyYXRlZCBQREYgZG9jdW1lbnQgLS0gZGlnZXN0IChvcGVuc291cmNlKQoKL0luZm8gMTAgMCBSCi9Sb290IDkgMCBSCi9TaXplIDE1Cj4+CnN0YXJ0eHJlZgo1NzE1CiUlRU9GCg==" download="StudioPyramid_Proposal.pdf">
+        <div class="dl-icon">⊡</div>
+        <div>
+          <div class="dl-label">PDF — 3pp</div>
+          <div class="dl-title">Proposal Template</div>
+        </div>
+        <div class="dl-desc">Three-page client proposal with scope, timeline, investment, and sign-off.</div>
+        <div class="dl-action">Download <span class="dl-arrow">↓</span></div>
+      </a>
+      <a class="download-card reveal" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjEgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9CYXNlRm9udCAvSGVsdmV0aWNhLUJvbGQgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YyIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKNCAwIG9iago8PAovQ29udGVudHMgOCAwIFIgL01lZGlhQm94IFsgMCAwIDU5NS4yNzU2IDg0MS44ODk4IF0gL1BhcmVudCA3IDAgUiAvUmVzb3VyY2VzIDw8Ci9FeHRHU3RhdGUgPDwKL2dSTHMwIDw8Ci9DQSAuMDgKPj4gL2dSTHMxIDw8Ci9DQSAxCj4+Cj4+IC9Gb250IDEgMCBSIC9Qcm9jU2V0IFsgL1BERiAvVGV4dCAvSW1hZ2VCIC9JbWFnZUMgL0ltYWdlSSBdCj4+IC9Sb3RhdGUgMCAvVHJhbnMgPDwKCj4+IAogIC9UeXBlIC9QYWdlCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9QYWdlTW9kZSAvVXNlTm9uZSAvUGFnZXMgNyAwIFIgL1R5cGUgL0NhdGFsb2cKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL0F1dGhvciAoYW5vbnltb3VzKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYwMzI4MDU1MjU5KzAwJzAwJykgL0NyZWF0b3IgKGFub255bW91cykgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYwMzI4MDU1MjU5KzAwJzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKHVuc3BlY2lmaWVkKSAvVGl0bGUgKHVudGl0bGVkKSAvVHJhcHBlZCAvRmFsc2UKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0NvdW50IDEgL0tpZHMgWyA0IDAgUiBdIC9UeXBlIC9QYWdlcwo+PgplbmRvYmoKOCAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCA5MjQKPj4Kc3RyZWFtCkdhc2JaOWh1XV8mO0taTi8qOXJJM2Q8ZGRdRzFkVU9EJj86Mz9XPDU7W0I/bjprUGVJclFealZaU2krODhGYyw7QkFddUcxTGddVHIpKjxeYlEzYC0zOz8wNClWUjdxSypMJGMzLCc9ai03VEhbJjojWHUtTDJqLFZwLURLQ1NPPmNYYjEhZTZca2MvW3JBaDZUWCUxLWIyTT5RSyl0dG5VSDBNOkJBRUAjRV4xU04jOVBLcGxzZWJlQWIwUUhQPW5ZOy51ckNKKFhbI2RpdUdfVFJNU21LZzROTEVBdSImJ15AXignIyolVzBJJUBubmg2RmVrMCF1RnBkJnVNPTBZTENuQSQpbHEmOitqUlZXOFxxTzEhRUVZQUhHK1wpNSlMXixyUnQpS29OS21kLDg1NDchbyc+MiwrX2twI0FcJm1QTlk4b1E8Nm86NGE1ZSNGMT5BXjtCTE5zXk1cIlJSMmM/KypoVFZzIVJKcVZxIzFsMSNoJV5TMElaUShiVEVRQ286Py86dTYmTVFdTT9ONTVdbk9mZmYrMCZeSig/TWtfWHE7UGhrXEFfbDliTTxFZ0U/Mz5LaUJnbl5LNWBBTTMmazNIbG9pMjA0MFFORypeaCk3LW1mKzpVUl9YV3JFUEJHWmNQQFtTQmYwXSNGbXAlIz8uVWxNLS0pcHEvZWlqTjJNXl0zJ0E0c2VgQzVKZUllUixFaGhSSSNhZUYwW0hbQnFcQz5AMURsXGMpOjE+W3RmaklDRmsmLGxVbGBzcmdkRD5KN2xxLCVjV0JpLWdTUXMtQUdcR2NHPEFNXkRJLXU1SDJKWTFuKmR0RGxEcThaaChxaWhERHE2RGg4alRzPlA2UGosZVo/KWpNJGktSFgnK11MTDQmNlRbQC9EJlhFRWNzWz5IaShWK3NBOWdNOFw0VT51UiJLJEBLRFJXTVEqNkVlcUA8Y1hedWRQa3FWYk9LLyRvaWZVZEJ0KVkvXjpkUlItRDlFbGwnbylMZUhXLXNWL09xIjxbZmszUWJIVic9UXVVJV49XWtGZVlMYURSK1c2Z2VuUzVcRjosdXRaVyosXE5taFo2ZjtxdCciWj02MGdSPj9FVjkwUWteIjBIZmtVQDdbV0pZI1dkKDYwYlEnQWwkUyI4LyZCOU0tO2plJiQvWGtxMWksWzFZPk5HSydxTC9URG1gc2pFMy5pZ1lNWyVXTmtST0wpbiFKJChFLGx+PmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDkKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAxMDIgMDAwMDAgbiAKMDAwMDAwMDIwOSAwMDAwMCBuIAowMDAwMDAwMzIxIDAwMDAwIG4gCjAwMDAwMDA1ODEgMDAwMDAgbiAKMDAwMDAwMDY0OSAwMDAwMCBuIAowMDAwMDAwOTEwIDAwMDAwIG4gCjAwMDAwMDA5NjkgMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8Y2MwOGZiZjdlN2MzNGE3NDU0NGJjMGQzODgzNTRjMTc+PGNjMDhmYmY3ZTdjMzRhNzQ1NDRiYzBkMzg4MzU0YzE3Pl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyA2IDAgUgovUm9vdCA1IDAgUgovU2l6ZSA5Cj4+CnN0YXJ0eHJlZgoxOTgzCiUlRU9GCg==" download="StudioPyramid_Letterhead.pdf">
+        <div class="dl-icon">▭</div>
+        <div>
+          <div class="dl-label">PDF — A4</div>
+          <div class="dl-title">Letterhead</div>
+        </div>
+        <div class="dl-desc">Branded stationery for emails, letters, and formal client communications.</div>
+        <div class="dl-action">Download <span class="dl-arrow">↓</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact" class="contact-section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Get In Touch</span>
+      <h2 class="section-title">Start Your Project</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-left reveal">
+        <p>Ready to elevate your brand? Whether you need a full digital strategy or a single standout design — we're here to build something remarkable together.</p>
+        <div class="contact-info-list">
+          <div class="contact-info-item">
+            <div class="ci-icon">✉</div>
+            <div class="ci-text"><h4>Email</h4><p>ibramich3@gmail.com</p></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="ci-icon">◎</div>
+            <div class="ci-text"><h4>Phone</h4><p>+1 (708) 979-0310</p></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="ci-icon">◇</div>
+            <div class="ci-text"><h4>Studio Hours</h4><p>Mon–Fri, 9AM–6PM CST</p></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="ci-icon">△</div>
+            <div class="ci-text"><h4>Response Time</h4><p>Within 1 business day</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form reveal reveal-delay-2">
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group"><label for="name">Full Name</label><input type="text" id="name" name="name" placeholder="Your name" required/></div>
+            <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="your@email.com" required/></div>
+          </div>
+          <div class="form-group">
+            <label for="service">Service Interested In</label>
+            <select id="service" name="service">
+              <option value="">Select a service</option>
+              <option>Brand Identity Design</option>
+              <option>Website Design & Development</option>
+              <option>Social Media & Content</option>
+              <option>Digital Advertisement</option>
+              <option>Reputation Management</option>
+              <option>Lead Nurturing & Strategy</option>
+            </select>
+          </div>
+          <div class="form-group"><label for="message">Project Details</label><textarea id="message" name="message" placeholder="Tell us about your project..." rows="5" required></textarea></div>
+          <button type="submit" class="submit-btn">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <svg width="22" height="19" viewBox="0 0 36 30" fill="none">
+          <line x1="18" y1="1" x2="1" y2="28" stroke="#0D0D0D" stroke-width="0.9"/>
+          <line x1="18" y1="1" x2="35" y2="28" stroke="#0D0D0D" stroke-width="0.9"/>
+          <line x1="1" y1="28" x2="35" y2="28" stroke="#0D0D0D" stroke-width="0.9"/>
+          <line x1="18" y1="1" x2="10" y2="28" stroke="#0D0D0D" stroke-width="0.5"/>
+          <line x1="18" y1="1" x2="26" y2="28" stroke="#0D0D0D" stroke-width="0.5"/>
+          <line x1="4" y1="22" x2="32" y2="22" stroke="#0D0D0D" stroke-width="0.4"/>
+          <line x1="8" y1="16" x2="28" y2="16" stroke="#0D0D0D" stroke-width="0.4"/>
+        </svg>
+        <span class="footer-brand-name">StudioPyramid</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="social-links">
+        <a href="#" title="Facebook">f</a>
+        <a href="#" title="Instagram">ig</a>
+        <a href="#" title="LinkedIn">in</a>
+        <a href="#" title="Twitter">x</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 StudioPyramid. All rights reserved.</p>
+      <p class="footer-coords">29.9773° N, 31.1325° E</p>
+      <p class="footer-tagline">Building trust through design. Driving results through strategy.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('mobileMenu').addEventListener('click',()=>{
+  document.getElementById('navLinks').classList.toggle('active');
+});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    const t=document.querySelector(this.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+    document.getElementById('navLinks').classList.remove('active');
+  });
+});
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+document.getElementById('contactForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  const btn=this.querySelector('.submit-btn');
+  btn.textContent='Message Sent ✓';
+  btn.style.background='#3A3A3A';
+  setTimeout(()=>{btn.textContent='Send Message →';btn.style.background='';this.reset();},3000);
+});
+</script>
+</body>
+</html>
