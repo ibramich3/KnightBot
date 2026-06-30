@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KnightBot ♞ Chess — Studio Pyramid</title>
+    <title>KnightBot ♞ Chess — Michael Ibrahim</title>
+    <meta name="description" content="Play KnightBot, a free browser-based chess engine with adjustable difficulty, move analysis, undo/redo, and board themes. Built by Michael Ibrahim.">
+    <meta name="author" content="Michael Ibrahim">
+    <link rel="canonical" href="https://ibramich3.github.io/KnightBot/">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="KnightBot ♞ Chess — Michael Ibrahim">
+    <meta property="og:description" content="A free browser-based chess engine with adjustable difficulty, move analysis, undo/redo, and board themes.">
+    <meta property="og:url" content="https://ibramich3.github.io/KnightBot/">
+    <meta property="og:site_name" content="Michael Ibrahim">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="KnightBot ♞ Chess — Michael Ibrahim">
+    <meta name="twitter:description" content="A free browser-based chess engine with adjustable difficulty, move analysis, undo/redo, and board themes.">
+    <!-- Favicon (inline knight glyph, no external file needed) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%230D0D0D'/%3E%3Ctext x='50' y='68' font-size='62' text-anchor='middle' fill='%23F2F0EB'%3E%E2%99%9E%3C/text%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
         :root {
@@ -140,12 +155,37 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--cream2); }
         ::-webkit-scrollbar-thumb { background: var(--rule-s); border-radius: 2px; }
+
+        /* THEME SWATCHES */
+        .theme-swatch {
+            width: 14px; height: 14px; border-radius: 50%; display: inline-block;
+            border: 1px solid var(--rule-s); vertical-align: middle; margin-right: 4px;
+        }
+        select#difficultySelect, select#themeSelect {
+            font-family: 'Montserrat',sans-serif; font-size: 0.42rem; font-weight: 600;
+            letter-spacing: 1px; text-transform: uppercase; padding: 6px 8px;
+            background: var(--cream2); color: var(--ink); border: 1px solid var(--rule-s); border-radius: 2px;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+        .site-footer {
+            width: 100%; max-width: 900px; margin-top: 36px; padding-top: 16px;
+            border-top: 1px solid var(--rule-s); display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap; gap: 10px; position: relative; z-index: 1;
+        }
+        .footer-text { font-size: 0.42rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--lighter); }
+        .footer-link {
+            font-size: 0.42rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mid);
+            text-decoration: none; border-bottom: 1px solid var(--rule-s); padding-bottom: 1px; transition: color 0.2s, border-color 0.2s;
+        }
+        .footer-link:hover { color: var(--ink); border-color: var(--ink); }
     </style>
 </head>
 <body>
 
 <div class="site-header">
-    <a class="brand" href="#">
+    <a class="brand" href="https://ibramich3.github.io/ibramich-Studios/#home">
         <svg width="22" height="19" viewBox="0 0 36 30" fill="none">
             <line x1="18" y1="1" x2="1" y2="28" stroke="#0D0D0D" stroke-width="0.9"/>
             <line x1="18" y1="1" x2="35" y2="28" stroke="#0D0D0D" stroke-width="0.9"/>
@@ -155,7 +195,7 @@
             <line x1="4" y1="22" x2="32" y2="22" stroke="#0D0D0D" stroke-width="0.4"/>
             <line x1="8" y1="16" x2="28" y2="16" stroke="#0D0D0D" stroke-width="0.4"/>
         </svg>
-        <span class="brand-name">StudioPyramid</span>
+        <span class="brand-name">Michael Ibrahim</span>
     </a>
     <div>
         <div class="game-title">♞ KnightBot</div>
@@ -178,6 +218,18 @@
       <label><input type="checkbox" id="moveAnalysis" onchange="toggleMoveAnalysis()"> Analysis</label>
       <label><input type="checkbox" id="autoMove" onchange="toggleAutoMove()"> Auto Move</label>
       <label><input type="checkbox" id="freeMode" onchange="toggleFreeMode()"> Free Mode</label>
+      <label><input type="checkbox" id="soundToggle" checked onchange="toggleSound()"> Sound</label>
+      <select id="difficultySelect" onchange="setDifficulty()" title="Engine difficulty">
+        <option value="2">Easy</option>
+        <option value="3" selected>Medium</option>
+        <option value="4">Hard</option>
+      </select>
+      <select id="themeSelect" onchange="setTheme()" title="Board theme">
+        <option value="classic">Classic</option>
+        <option value="walnut" selected>Walnut</option>
+        <option value="slate">Slate</option>
+        <option value="forest">Forest</option>
+      </select>
       <button id="bestMoveButton" onclick="makeBestMove()">Best Move</button>
       <button id="undoButton" onclick="undoMove()">↩ Undo</button>
       <button id="redoButton" onclick="redoMove()">↪ Redo</button>
@@ -192,6 +244,11 @@
       <tbody></tbody>
     </table>
   </div>
+</div>
+
+<div class="site-footer">
+  <span class="footer-text">© 2026 Michael Ibrahim</span>
+  <a class="footer-link" href="https://ibramich3.github.io/ibramich-Studios/#home">← Back to Michael Ibrahim's Portfolio</a>
 </div>
 
 <!-- GAME OVER BANNER -->
@@ -274,15 +331,97 @@ class KnightBot {
 const canvas=document.getElementById('knightBoard');
 const ctx=canvas.getContext('2d');
 const SQ=56;
-const GLYPHS={'K':'♔','Q':'♕','R':'♖','B':'♗','N':'♘','P':'♙','k':'♚','q':'♛','r':'♜','b':'♝','n':'♞','p':'♟'};
+/* ---- Vector chess piece icons (drawn on canvas — no fonts/images needed) ---- */
+function pc_poly(pts,cx,cy){ctx.beginPath();pts.forEach(([dx,dy],i)=>{const x=cx+dx,y=cy+dy;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.closePath();ctx.fill();ctx.stroke();}
+function pc_circle(cx,cy,r){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();ctx.stroke();}
+function pc_rect(cx,cy,dx,dy,w,h){ctx.beginPath();ctx.rect(cx+dx-w/2,cy+dy-h/2,w,h);ctx.fill();ctx.stroke();}
+function pc_base(cx,cy,w){pc_poly([[-w*0.55,20],[w*0.55,20],[w*0.36,15],[-w*0.36,15]],cx,cy);}
+function drawPawnIcon(cx,cy){pc_base(cx,cy,20);pc_poly([[-6,15],[6,15],[4,9],[-4,9]],cx,cy);pc_circle(cx,cy-3,6.5);}
+function drawRookIcon(cx,cy){pc_base(cx,cy,24);pc_rect(cx,cy,0,4.5,18,21);pc_rect(cx,cy,0,-10,20,8);[-8,0,8].forEach(dx=>pc_rect(cx,cy,dx,-17,4,6));}
+function drawBishopIcon(cx,cy){pc_base(cx,cy,20);pc_poly([[-7,15],[7,15],[4,2],[-4,2]],cx,cy);pc_circle(cx,cy-6,7);pc_poly([[-3,-9],[3,-9],[0,-18]],cx,cy);pc_circle(cx,cy-19,2.2);}
+function drawKnightIcon(cx,cy){pc_base(cx,cy,22);pc_poly([[-7,15],[7,15],[7,2],[2,-2],[7,-6],[4,-10],[0,-7],[-2,-12],[-5,-9],[-3,-5],[-7,-1],[-9,4]],cx,cy);}
+function drawQueenIcon(cx,cy){pc_base(cx,cy,26);pc_poly([[-9,15],[9,15],[6,0],[-6,0]],cx,cy);pc_rect(cx,cy,0,-2,18,4);[-8,-4,0,4,8].forEach(dx=>{pc_poly([[dx-2,-4],[dx+2,-4],[dx,-11]],cx,cy);pc_circle(cx+dx,cy-12,2);});}
+function drawKingIcon(cx,cy){pc_base(cx,cy,26);pc_poly([[-9,15],[9,15],[6,0],[-6,0]],cx,cy);pc_rect(cx,cy,0,-2,18,4);pc_rect(cx,cy,0,-10,3,12);pc_rect(cx,cy,0,-12,9,3);}
+function renderPiece(piece,row,col){
+    if(piece===' ')return;
+    const cx=col*SQ+SQ/2,cy=row*SQ+SQ/2,white=isWhite(piece);
+    ctx.save();
+    ctx.fillStyle=white?'#FFFFFF':'#1a1a1a';
+    ctx.strokeStyle=white?'rgba(0,0,0,0.45)':'rgba(255,255,255,0.15)';
+    ctx.lineWidth=1.1;
+    ctx.shadowColor='rgba(0,0,0,0.22)';ctx.shadowBlur=2.5;ctx.shadowOffsetX=1;ctx.shadowOffsetY=1.5;
+    switch(piece.toLowerCase()){
+        case 'p':drawPawnIcon(cx,cy);break;
+        case 'r':drawRookIcon(cx,cy);break;
+        case 'n':drawKnightIcon(cx,cy);break;
+        case 'b':drawBishopIcon(cx,cy);break;
+        case 'q':drawQueenIcon(cx,cy);break;
+        case 'k':drawKingIcon(cx,cy);break;
+    }
+    ctx.restore();
+}
 
-// Board squares — warm creams matching brand
-const LIGHT_SQ='#EAE7E0';
-const DARK_SQ='#B8B0A0';
+// Board squares — warm creams matching brand (theme-able)
+const THEMES={
+    classic:{light:'#EAE7E0',dark:'#B8B0A0'},
+    walnut:{light:'#E8DCC8',dark:'#8B5E3C'},
+    slate:{light:'#DCE2E5',dark:'#5C6B73'},
+    forest:{light:'#E4E8DA',dark:'#6B7F5E'}
+};
+
+/* ---- Vector chess pieces (drawn on canvas — consistent across all browsers/OSes, no font dependency) ---- */
+function fs(ctx,doStroke){ctx.fill();if(doStroke)ctx.stroke();}
+function pawnPath(ctx,s,doStroke){
+    ctx.beginPath();ctx.moveTo(-0.22*s,0.40*s);ctx.lineTo(0.22*s,0.40*s);ctx.lineTo(0.16*s,0.30*s);ctx.lineTo(-0.16*s,0.30*s);ctx.closePath();fs(ctx,doStroke);
+    ctx.beginPath();ctx.moveTo(-0.10*s,0.30*s);ctx.lineTo(0.10*s,0.30*s);ctx.lineTo(0.06*s,0.05*s);ctx.lineTo(-0.06*s,0.05*s);ctx.closePath();fs(ctx,doStroke);
+    ctx.beginPath();ctx.arc(0,-0.08*s,0.13*s,0,Math.PI*2);fs(ctx,doStroke);
+}
+function rookPath(ctx,s,doStroke){
+    ctx.beginPath();ctx.rect(-0.24*s,0.30*s,0.48*s,0.10*s);fs(ctx,doStroke);
+    ctx.beginPath();ctx.moveTo(-0.18*s,0.30*s);ctx.lineTo(0.18*s,0.30*s);ctx.lineTo(0.15*s,-0.10*s);ctx.lineTo(-0.15*s,-0.10*s);ctx.closePath();fs(ctx,doStroke);
+    ctx.beginPath();const top=-0.10*s,h=-0.26*s;ctx.moveTo(-0.20*s,top);ctx.lineTo(-0.20*s,h);ctx.lineTo(-0.12*s,h);ctx.lineTo(-0.12*s,h+0.06*s);ctx.lineTo(-0.04*s,h+0.06*s);ctx.lineTo(-0.04*s,h);ctx.lineTo(0.04*s,h);ctx.lineTo(0.04*s,h+0.06*s);ctx.lineTo(0.12*s,h+0.06*s);ctx.lineTo(0.12*s,h);ctx.lineTo(0.20*s,h);ctx.lineTo(0.20*s,top);ctx.closePath();fs(ctx,doStroke);
+}
+function knightPath(ctx,s,isW,doStroke){
+    ctx.beginPath();ctx.rect(-0.22*s,0.30*s,0.44*s,0.10*s);fs(ctx,doStroke);
+    ctx.beginPath();ctx.moveTo(-0.18*s,0.30*s);ctx.lineTo(-0.20*s,0.05*s);ctx.quadraticCurveTo(-0.22*s,-0.15*s,-0.05*s,-0.28*s);ctx.quadraticCurveTo(0.10*s,-0.34*s,0.22*s,-0.22*s);ctx.lineTo(0.16*s,-0.16*s);ctx.lineTo(0.22*s,-0.10*s);ctx.lineTo(0.12*s,-0.08*s);ctx.quadraticCurveTo(0.05*s,0,0.10*s,0.10*s);ctx.lineTo(0.20*s,0.30*s);ctx.closePath();fs(ctx,doStroke);
+    if(doStroke){const prevFill=ctx.fillStyle;ctx.beginPath();ctx.fillStyle=isW?'rgba(0,0,0,0.55)':'rgba(255,255,255,0.7)';ctx.arc(0.03*s,-0.20*s,0.025*s,0,Math.PI*2);ctx.fill();ctx.fillStyle=prevFill;}
+}
+function bishopPath(ctx,s,doStroke){
+    ctx.beginPath();ctx.rect(-0.20*s,0.30*s,0.40*s,0.10*s);fs(ctx,doStroke);
+    ctx.beginPath();ctx.moveTo(-0.14*s,0.30*s);ctx.quadraticCurveTo(-0.20*s,0.05*s,-0.06*s,-0.10*s);ctx.quadraticCurveTo(-0.16*s,-0.22*s,0,-0.34*s);ctx.quadraticCurveTo(0.16*s,-0.22*s,0.06*s,-0.10*s);ctx.quadraticCurveTo(0.20*s,0.05*s,0.14*s,0.30*s);ctx.closePath();fs(ctx,doStroke);
+    if(doStroke){ctx.beginPath();ctx.moveTo(-0.05*s,-0.20*s);ctx.lineTo(0.05*s,-0.28*s);ctx.lineWidth=s*0.035;ctx.stroke();}
+    ctx.beginPath();ctx.arc(0,-0.40*s,0.045*s,0,Math.PI*2);fs(ctx,doStroke);
+}
+function queenPath(ctx,s,doStroke){
+    ctx.beginPath();ctx.rect(-0.24*s,0.30*s,0.48*s,0.10*s);fs(ctx,doStroke);
+    ctx.beginPath();ctx.moveTo(-0.18*s,0.30*s);ctx.lineTo(-0.10*s,-0.05*s);ctx.lineTo(0.10*s,-0.05*s);ctx.lineTo(0.18*s,0.30*s);ctx.closePath();fs(ctx,doStroke);
+    ctx.beginPath();const y0=-0.05*s,y1=-0.24*s;ctx.moveTo(-0.16*s,y0);ctx.lineTo(-0.16*s,y1);ctx.lineTo(-0.08*s,y0-0.04*s);ctx.lineTo(0,y1);ctx.lineTo(0.08*s,y0-0.04*s);ctx.lineTo(0.16*s,y1);ctx.lineTo(0.16*s,y0);ctx.closePath();fs(ctx,doStroke);
+    ctx.beginPath();ctx.arc(0,y1,0.045*s,0,Math.PI*2);fs(ctx,doStroke);
+}
+function kingPath(ctx,s,doStroke){
+    ctx.beginPath();ctx.rect(-0.24*s,0.30*s,0.48*s,0.10*s);fs(ctx,doStroke);
+    ctx.beginPath();ctx.moveTo(-0.18*s,0.30*s);ctx.lineTo(-0.12*s,-0.02*s);ctx.lineTo(0.12*s,-0.02*s);ctx.lineTo(0.18*s,0.30*s);ctx.closePath();fs(ctx,doStroke);
+    ctx.beginPath();ctx.rect(-0.16*s,-0.08*s,0.32*s,0.06*s);fs(ctx,doStroke);
+    ctx.beginPath();ctx.rect(-0.03*s,-0.26*s,0.06*s,0.18*s);fs(ctx,doStroke);
+    if(doStroke){ctx.beginPath();ctx.moveTo(0,-0.40*s);ctx.lineTo(0,-0.24*s);ctx.moveTo(-0.07*s,-0.33*s);ctx.lineTo(0.07*s,-0.33*s);ctx.lineWidth=s*0.055;ctx.stroke();}
+}
+function drawChessPiece(ctx,piece,cx,cy,s,shadow){
+    const isW=piece===piece.toUpperCase();
+    ctx.save();ctx.translate(cx,cy);
+    if(shadow){ctx.translate(1.5,2);ctx.fillStyle='rgba(0,0,0,0.15)';ctx.strokeStyle='rgba(0,0,0,0)';}
+    else{ctx.fillStyle=isW?'#FFFFFF':'#1a1a1a';ctx.strokeStyle='rgba(0,0,0,0.5)';}
+    ctx.lineWidth=s*0.035;ctx.lineJoin='round';ctx.lineCap='round';
+    const t=piece.toLowerCase(),doStroke=!shadow;
+    switch(t){case 'p':pawnPath(ctx,s,doStroke);break;case 'r':rookPath(ctx,s,doStroke);break;case 'n':knightPath(ctx,s,isW,doStroke);break;case 'b':bishopPath(ctx,s,doStroke);break;case 'q':queenPath(ctx,s,doStroke);break;case 'k':kingPath(ctx,s,doStroke);break;}
+    ctx.restore();
+}
+let LIGHT_SQ=THEMES.walnut.light;
+let DARK_SQ=THEMES.walnut.dark;
 
 let board=[['r','n','b','q','k','b','n','r'],['p','p','p','p','p','p','p','p'],[' ',' ',' ',' ',' ',' ',' ',' '],[' ',' ',' ',' ',' ',' ',' ',' '],[' ',' ',' ',' ',' ',' ',' ',' '],[' ',' ',' ',' ',' ',' ',' ',' '],['P','P','P','P','P','P','P','P'],['R','N','B','Q','K','B','N','R']];
 let selectedPiece=null,validMoves=[],currentPlayer='white',lastThoughts=[],moveHistory=[],freeModeEnabled=false,autoMoveEnabled=false,moveStack=[],redoStack=[],capturedByWhite=[],capturedByBlack=[],gameOver=false;
-const DEPTH=3;
+let DEPTH=3;
+let soundEnabled=true;
 const pieceEmoji={'r':'♜','n':'♞','b':'♝','q':'♛','k':'♚','p':'♟','R':'♖','N':'♘','B':'♗','Q':'♕','K':'♔','P':'♙'};
 
 function isWhite(p){return p!==' '&&p===p.toUpperCase();}
@@ -312,7 +451,7 @@ function drawBoard(){
     if(selectedPiece){ctx.fillStyle='rgba(13,13,13,0.16)';ctx.fillRect(selectedPiece.col*SQ,selectedPiece.row*SQ,SQ,SQ);}
     for(const m of validMoves){if(board[m.row][m.col]!==' '){ctx.strokeStyle='rgba(160,40,40,0.65)';ctx.lineWidth=3;ctx.strokeRect(m.col*SQ+2,m.row*SQ+2,SQ-4,SQ-4);}else{ctx.fillStyle='rgba(13,13,13,0.13)';ctx.beginPath();ctx.arc((m.col+0.5)*SQ,(m.row+0.5)*SQ,SQ*0.16,0,Math.PI*2);ctx.fill();}}
     if(window.moveAnalysisEnabled)displayThoughts(lastThoughts);
-    for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=board[r][c];if(p===' ')continue;const glyph=GLYPHS[p],cx=c*SQ+SQ/2,cy=r*SQ+SQ/2;ctx.font=`${SQ*0.72}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='rgba(0,0,0,0.12)';ctx.fillText(glyph,cx+1.5,cy+2);if(isWhite(p)){ctx.fillStyle='#FFFFFF';ctx.fillText(glyph,cx,cy);ctx.strokeStyle='rgba(0,0,0,0.45)';ctx.lineWidth=0.7;ctx.strokeText(glyph,cx,cy);}else{ctx.fillStyle='#1a1a1a';ctx.fillText(glyph,cx,cy);}}
+    for(let r=0;r<8;r++)for(let c=0;c<8;c++)renderPiece(board[r][c],r,c);
     updateStatus();updateCaptureTray();
 }
 
@@ -324,7 +463,7 @@ function getClickedSquare(e){const rect=canvas.getBoundingClientRect();const sca
 function robotMove(){if(window.knightBot&&currentPlayer==='black'&&!gameOver){const m=window.knightBot.getBestMoveForBlack(DEPTH);if(m)makeMove(m.from,m.to);else checkGameState();updateUndoRedoButtonStates();}}
 function makeAutoMove(){if(autoMoveEnabled&&currentPlayer==='white'&&!gameOver){const b=window.knightBot.getBestMove(DEPTH);if(b)makeMove(b.from,b.to);}}
 
-function makeMove(from,to){if(gameOver)return;const piece=board[from.row][from.col],captured=board[to.row][to.col];moveStack.push({from,to,piece,capturedPiece:captured,currentPlayer,capW:[...capturedByWhite],capB:[...capturedByBlack]});redoStack=[];if(captured!==' '){if(currentPlayer==='white')capturedByWhite.push(pieceEmoji[captured]);else capturedByBlack.push(pieceEmoji[captured]);}board[to.row][to.col]=piece;board[from.row][from.col]=' ';if(piece==='P'&&to.row===0)board[to.row][to.col]='Q';if(piece==='p'&&to.row===7)board[to.row][to.col]='q';if(window.knightBot)window.knightBot.board=board;lastThoughts=[];const fc=String.fromCharCode(97+from.col)+(8-from.row),tc=String.fromCharCode(97+to.col)+(8-to.row);const note=`${piece}${fc}${captured!==' '?'x':''}${tc}`;if(currentPlayer==='white')moveHistory.push([note,'']);else moveHistory[moveHistory.length-1][1]=note;updateMoveHistoryTable();if(!freeModeEnabled)currentPlayer=currentPlayer==='white'?'black':'white';drawBoard();checkGameState();if(!gameOver){if(!freeModeEnabled&&currentPlayer==='black')setTimeout(robotMove,600);else if(autoMoveEnabled&&currentPlayer==='white')setTimeout(makeAutoMove,600);}updateBestMoveButtonState();updateUndoRedoButtonStates();saveGame();}
+function makeMove(from,to){if(gameOver)return;const piece=board[from.row][from.col],captured=board[to.row][to.col];moveStack.push({from,to,piece,capturedPiece:captured,currentPlayer,capW:[...capturedByWhite],capB:[...capturedByBlack]});redoStack=[];playMoveSound(captured!==' ');if(captured!==' '){if(currentPlayer==='white')capturedByWhite.push(pieceEmoji[captured]);else capturedByBlack.push(pieceEmoji[captured]);}board[to.row][to.col]=piece;board[from.row][from.col]=' ';if(piece==='P'&&to.row===0)board[to.row][to.col]='Q';if(piece==='p'&&to.row===7)board[to.row][to.col]='q';if(window.knightBot)window.knightBot.board=board;lastThoughts=[];const fc=String.fromCharCode(97+from.col)+(8-from.row),tc=String.fromCharCode(97+to.col)+(8-to.row);const note=`${piece}${fc}${captured!==' '?'x':''}${tc}`;if(currentPlayer==='white')moveHistory.push([note,'']);else moveHistory[moveHistory.length-1][1]=note;updateMoveHistoryTable();if(!freeModeEnabled)currentPlayer=currentPlayer==='white'?'black':'white';drawBoard();checkGameState();if(!gameOver){if(!freeModeEnabled&&currentPlayer==='black')setTimeout(robotMove,600);else if(autoMoveEnabled&&currentPlayer==='white')setTimeout(makeAutoMove,600);}else{playGameOverSound();}updateBestMoveButtonState();updateUndoRedoButtonStates();saveGame();}
 
 canvas.addEventListener('click',e=>{if(gameOver)return;const{row,col}=getClickedSquare(e);if(row<0||row>7||col<0||col>7)return;const canPlay=freeModeEnabled||currentPlayer==='white';if(!canPlay)return;if(selectedPiece){if(validMoves.some(m=>m.row===row&&m.col===col)){makeMove(selectedPiece,{row,col});selectedPiece=null;validMoves=[];}else{const p=board[row][col];if(p!==' '&&(freeModeEnabled||(currentPlayer==='white'&&isWhite(p)))){selectedPiece={row,col};validMoves=freeModeEnabled?getRawMoves({row,col}):getLegalMoves(selectedPiece,board,currentPlayer==='white'?'white':'black');}else{selectedPiece=null;validMoves=[];}}}else{const p=board[row][col];if(p===' ')return;const isMyPiece=freeModeEnabled||(currentPlayer==='white'&&isWhite(p))||(currentPlayer==='black'&&isBlack(p));if(!isMyPiece)return;selectedPiece={row,col};validMoves=freeModeEnabled?getRawMoves({row,col}):getLegalMoves({row,col},board,isWhite(p)?'white':'black');}drawBoard();});
 canvas.addEventListener('touchstart',e=>{e.preventDefault();canvas.dispatchEvent(new MouseEvent('click',{clientX:e.touches[0].clientX,clientY:e.touches[0].clientY}));},{passive:false});
@@ -336,6 +475,21 @@ function startNewGame(){board=[['r','n','b','q','k','b','n','r'],['p','p','p','p
 function displayThoughts(t){t.slice(0,5).forEach((th,i)=>{const a=Math.max(0.04,0.35-i*0.07);ctx.strokeStyle=`rgba(13,13,13,${a})`;ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo((th.from.col+0.5)*SQ,(th.from.row+0.5)*SQ);ctx.lineTo((th.to.col+0.5)*SQ,(th.to.row+0.5)*SQ);ctx.stroke();ctx.setLineDash([]);});}
 
 function toggleMoveAnalysis(){window.moveAnalysisEnabled=!window.moveAnalysisEnabled;if(!window.moveAnalysisEnabled)lastThoughts=[];drawBoard();}
+
+/* ---- Sound (Web Audio API — no external files needed) ---- */
+let audioCtx=null;
+function getAudioCtx(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function beep(freq,dur,type='sine',vol=0.12){if(!soundEnabled)return;try{const ctxA=getAudioCtx();const osc=ctxA.createOscillator(),gain=ctxA.createGain();osc.type=type;osc.frequency.value=freq;gain.gain.value=vol;osc.connect(gain);gain.connect(ctxA.destination);osc.start();gain.gain.exponentialRampToValueAtTime(0.0001,ctxA.currentTime+dur);osc.stop(ctxA.currentTime+dur);}catch(e){}}
+function playMoveSound(isCapture){if(isCapture){beep(220,0.12,'square',0.1);setTimeout(()=>beep(160,0.15,'square',0.09),60);}else{beep(440,0.09,'sine',0.08);}}
+function playGameOverSound(){beep(523,0.15);setTimeout(()=>beep(659,0.18),140);setTimeout(()=>beep(784,0.25),300);}
+function toggleSound(){soundEnabled=document.getElementById('soundToggle').checked;if(soundEnabled)beep(440,0.08);}
+
+/* ---- Difficulty ---- */
+function setDifficulty(){DEPTH=parseInt(document.getElementById('difficultySelect').value,10);}
+
+/* ---- Board theme ---- */
+function setTheme(){const key=document.getElementById('themeSelect').value;const t=THEMES[key]||THEMES.classic;LIGHT_SQ=t.light;DARK_SQ=t.dark;try{localStorage.setItem('kb_theme',key);}catch(e){}drawBoard();}
+function loadTheme(){try{const key=localStorage.getItem('kb_theme')||'walnut';if(THEMES[key]){document.getElementById('themeSelect').value=key;LIGHT_SQ=THEMES[key].light;DARK_SQ=THEMES[key].dark;}}catch(e){}}
 function toggleAutoMove(){autoMoveEnabled=!autoMoveEnabled;if(autoMoveEnabled){freeModeEnabled=false;document.getElementById('freeMode').checked=false;}updateBestMoveButtonState();updateUndoRedoButtonStates();if(autoMoveEnabled&&currentPlayer==='white'&&!gameOver)makeAutoMove();}
 function toggleFreeMode(){freeModeEnabled=!freeModeEnabled;if(freeModeEnabled){autoMoveEnabled=false;document.getElementById('autoMove').checked=false;}updateBestMoveButtonState();updateUndoRedoButtonStates();drawBoard();}
 function updateMoveHistoryTable(){const tb=document.querySelector('#moveHistory tbody');tb.innerHTML='';moveHistory.forEach((m,i)=>{const r=tb.insertRow();r.insertCell(0).textContent=i+1;r.insertCell(1).textContent=m[0];r.insertCell(2).textContent=m[1];});tb.parentElement.scrollTop=9999;}
@@ -346,7 +500,7 @@ function redoMove(){if(redoStack.length>0){const m=redoStack.pop();makeMove(m.fr
 function updateUndoRedoButtonStates(){document.getElementById('undoButton').disabled=moveStack.length===0;document.getElementById('redoButton').disabled=redoStack.length===0;}
 function saveGame(){try{localStorage.setItem('kb_board',JSON.stringify(board));localStorage.setItem('kb_player',currentPlayer);localStorage.setItem('kb_history',JSON.stringify(moveHistory));}catch(e){}}
 function loadGame(){try{const b=localStorage.getItem('kb_board'),p=localStorage.getItem('kb_player'),h=localStorage.getItem('kb_history');if(b&&p&&h){board=JSON.parse(b);currentPlayer=p;moveHistory=JSON.parse(h);updateMoveHistoryTable();if(window.knightBot)window.knightBot.board=board;}}catch(e){}}
-function initGame(){window.knightBot=new KnightBot(board);window.moveAnalysisEnabled=false;loadGame();updateBestMoveButtonState();updateUndoRedoButtonStates();drawBoard();startAdTimer();}
+function initGame(){window.knightBot=new KnightBot(board);window.moveAnalysisEnabled=false;loadGame();loadTheme();updateBestMoveButtonState();updateUndoRedoButtonStates();drawBoard();startAdTimer();}
 initGame();
 </script>
 
